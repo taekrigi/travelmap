@@ -2,11 +2,14 @@ package com.my.travelmap.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Service;
 
 import com.my.travelmap.dto.UserDto;
 import com.my.travelmap.entity.User;
 import com.my.travelmap.mapper.UserMapper;
+import com.my.travelmap.param.UserParam;
 import com.my.travelmap.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +28,8 @@ public class UserService {
 	}
 	
 	public UserDto getUserByUsername(String username) {
-		return userMapper.toDto(findUserByUsername(username));
+		UserDto userDto = userMapper.toDto(findUserByUsername(username));
+		return userDto;
 	}
 	
 	private User findUserByUsername(String username) {
@@ -33,4 +37,8 @@ public class UserService {
 				.orElseThrow(() -> new IllegalArgumentException("user not found : " + username));
 	}
 
+	public UserDto addUser(@Valid UserParam userParam) {
+		User user = userRepository.save(userMapper.toEntity(userParam));
+		return userMapper.toDto(user);
+	}
 }

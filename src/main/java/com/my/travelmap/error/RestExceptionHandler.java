@@ -16,16 +16,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final static String INTERNAL_SERVER_ERROR = "Internal Server Error";
     private final static String BAD_REQUEST = "Bad request";
-    
-    private final static String INVALID_INPUT = "Invalid input";
-    
+
     @ExceptionHandler(value = {IllegalArgumentException.class})
     public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(Exception e) {
     	logger.error("Bad request - {}", e.getMessage(), e);
         return buildResponseEntity(
         		new ExceptionResponse(
         				BAD_REQUEST, 
-        				INVALID_INPUT, 
+        				e.getMessage(), 
         				HttpStatus.BAD_REQUEST)
         		);
     }

@@ -1,17 +1,12 @@
 package com.my.travelmap.param;
 
-import java.util.UUID;
+import lombok.Data;
 
+@Data
 public class UserParam {
+
+	private String username;
 	
-	private UUID id;
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
+	private String password;
 
 }

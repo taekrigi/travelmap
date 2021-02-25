@@ -1,7 +1,6 @@
 package com.my.travelmap.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -11,15 +10,15 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class UserDto {
+public class TravelMapDto {
 
 	private UUID id;
 
-	private String username;
-
-	private LocalDateTime createdAt;
-
-	private LocalDateTime updatedAt;
+	private String country;
 	
-	private List<TravelMapDto> travelMaps;
+	private String city;
+	
+	private String latitude;
+	
+	private String longitude;
 }
