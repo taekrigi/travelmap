@@ -1,21 +1,18 @@
 package com.my.travelmap.entity;
 
-import java.util.UUID;
+import javax.persistence.Entity;
 
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-@Table
-public class User {
+@Entity
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@Data
+public class User extends BaseEntity {
+
+	private String username;
 	
-	private UUID id;
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	
+	private String password;
 }
