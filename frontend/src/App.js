@@ -1,5 +1,5 @@
 import './App.css';
-import TravelMap from './components/TravelMap'
+import TravelMap from './screens/TravelMapScreen'
 
 const App = () => {
   return (
