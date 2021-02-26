@@ -1,4 +1,4 @@
-package com.my.travelmap.repository;
+package com.my.travelmap.repository.user;
 
 import java.util.Optional;
 import java.util.UUID;

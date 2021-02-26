@@ -13,7 +13,7 @@ import com.my.travelmap.dto.UserDto;
 import com.my.travelmap.entity.User;
 import com.my.travelmap.mapper.UserMapper;
 import com.my.travelmap.param.UserParam;
-import com.my.travelmap.repository.UserRepository;
+import com.my.travelmap.repository.user.UserRepository;
 import com.my.travelmap.util.CommonUtilService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 

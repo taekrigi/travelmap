@@ -1,6 +1,7 @@
 package com.my.travelmap.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -11,7 +12,7 @@ import com.my.travelmap.dto.TravelMapDto;
 import com.my.travelmap.entity.TravelMap;
 import com.my.travelmap.mapper.TravelMapMapper;
 import com.my.travelmap.param.TravelMapParam;
-import com.my.travelmap.repository.TravelMapRepository;
+import com.my.travelmap.repository.travelmap.TravelMapRepository;
 import com.my.travelmap.util.CommonUtilService;
 
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,10 @@ public class TravelMapService {
 		TravelMap travelMap = findTravelMapById(id);
 		travelMapRepository.deleteById(id);
 		return travelMapMapper.toDto(travelMap);
+	}
+	
+	public List<Map<String, Integer>> getVisitedCountriesCountByUser(String username) {
+		return travelMapRepository.getVisitedCountriesCountByUser(username);
 	}
 	
 	private TravelMap findTravelMapById(UUID id) {
