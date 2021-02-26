@@ -21,12 +21,6 @@ public class TravelMapRepositoryImpl implements TravelMapRepositoryCustom {
 			.select(travelMap.country, travelMap.country.count())
 			.fetch();
 
-		System.out.println(jpaQueryFactory.from(travelMap)
-				.where(travelMap.user.username.eq(username))
-				.groupBy(travelMap.country)
-				.select(travelMap.country, travelMap.country.count())
-				.fetch());
-			
 		return null;
 	}
 
