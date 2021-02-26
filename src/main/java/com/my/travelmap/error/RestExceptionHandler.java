@@ -1,25 +1,27 @@
 package com.my.travelmap.error;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
-@ControllerAdvice(annotations = RestController.class)
-public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+@RestControllerAdvice
+public class RestExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
 
     private final static String INTERNAL_SERVER_ERROR = "Internal Server Error";
     private final static String BAD_REQUEST = "Bad request";
-
+    private final static String NOT_FOUND = "Not Found";
+    
     @ExceptionHandler(value = {IllegalArgumentException.class})
     public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(Exception e) {
-    	logger.error("Bad request - {}", e.getMessage(), e);
         return buildResponseEntity(
         		new ExceptionResponse(
         				BAD_REQUEST, 
@@ -28,19 +30,43 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         		);
     }
     
+    @ExceptionHandler(value = NoHandlerFoundException.class)
+	public ResponseEntity<ExceptionResponse> handleNoHandlerFoundException(Exception e) {
+    	return buildResponseEntity(
+        		new ExceptionResponse(
+    				NOT_FOUND, 
+    				NOT_FOUND, 
+    				HttpStatus.NOT_FOUND)
+        		);
+    }
+    
+    @ExceptionHandler(value = ResponseStatusException.class)
+	public ResponseEntity<ExceptionResponse> handleResponsestatusException(ResponseStatusException e) {
+    	return buildResponseEntity(
+        		new ExceptionResponse(
+        		    e.getLocalizedMessage(), 
+    				e.getMessage(), 
+    				e.getStatus()
+        		)		
+        );
+    }
+    
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<ExceptionResponse> handleException(Exception e) {
         logger.error("Server error - {}", e.getMessage(), e);
         return buildResponseEntity(
         		new ExceptionResponse(
-        				INTERNAL_SERVER_ERROR, 
-        				INTERNAL_SERVER_ERROR, 
-        				HttpStatus.INTERNAL_SERVER_ERROR)
+    				INTERNAL_SERVER_ERROR, 
+    				INTERNAL_SERVER_ERROR, 
+    				HttpStatus.INTERNAL_SERVER_ERROR)
         		);
     }
 
     private ResponseEntity<ExceptionResponse> buildResponseEntity(ExceptionResponse exceptionResponse) {
         logger.error("Handling error - {}", exceptionResponse);
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.valueOf(exceptionResponse.getStatus()));
+        return new ResponseEntity<>(
+        		exceptionResponse, 
+        		HttpStatus.valueOf(exceptionResponse.getStatus())
+        	   );
     }
 }

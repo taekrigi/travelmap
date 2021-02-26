@@ -23,7 +23,6 @@ public class TravelMap extends BaseEntity {
 	private String longitude;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "username")
 	private User user;
-
 }

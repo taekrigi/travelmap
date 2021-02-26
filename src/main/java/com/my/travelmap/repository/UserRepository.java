@@ -10,4 +10,6 @@ import com.my.travelmap.entity.User;
 public interface UserRepository extends JpaRepository<User, UUID> {
 
 	Optional<User> findByUsername(String username);
+	
+	User deleteByUsername(String username);
 }
