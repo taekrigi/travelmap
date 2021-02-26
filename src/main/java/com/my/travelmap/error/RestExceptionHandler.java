@@ -1,11 +1,10 @@
 package com.my.travelmap.error;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
@@ -47,6 +46,17 @@ public class RestExceptionHandler {
         		    e.getLocalizedMessage(), 
     				e.getMessage(), 
     				e.getStatus()
+        		)		
+        );
+    }
+    
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+	public ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    	return buildResponseEntity(
+        		new ExceptionResponse(
+        		    e.getLocalizedMessage(), 
+    				e.getMessage(), 
+    				HttpStatus.BAD_REQUEST
         		)		
         );
     }

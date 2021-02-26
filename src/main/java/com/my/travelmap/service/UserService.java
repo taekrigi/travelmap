@@ -38,12 +38,12 @@ public class UserService {
 		return userDto;
 	}
 
-	public UserDto addUser(@Valid @RequestBody UserParam userParam) {
+	public UserDto addUser(UserParam userParam) {
 		User user = userRepository.save(userMapper.toEntity(userParam));
 		return userMapper.toDto(user);
 	}
 
-	public UserDto updateUser(String username, @Valid @RequestBody UserParam userParam) {
+	public UserDto updateUser(String username, UserParam userParam) {
 		User user = findUserByUsername(username);
 		user.update(userParam);
 		return userMapper.toDto(user);
@@ -54,7 +54,7 @@ public class UserService {
 		return userMapper.toDto(user);
 	}
 	
-	private User findUserByUsername(String username) {
+	public User findUserByUsername(String username) {
 		return CommonUtilService.throwIfNotExist(userRepository.findByUsername(username), username);
 	}
 }

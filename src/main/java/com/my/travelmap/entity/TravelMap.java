@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.my.travelmap.param.TravelMapParam;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -25,4 +27,11 @@ public class TravelMap extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "username")
 	private User user;
+	
+	public void update(TravelMapParam travelMapParam) {
+		this.country = travelMapParam.getCountry();
+		this.city = travelMapParam.getCity();
+		this.latitude = travelMapParam.getLatitude();
+		this.longitude = travelMapParam.getLongitude();
+	}
 }

@@ -5,8 +5,11 @@ import lombok.Data;
 @Data
 public class TravelMapParam {
 
-	private String username;
+	private String country;
 	
-	private String password;
-
+	private String city;
+	
+	private String latitude;
+	
+	private String longitude;
 }
