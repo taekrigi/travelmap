@@ -54,7 +54,7 @@ public class TravelMapService {
 		return travelMapMapper.toDto(travelMap);
 	}
 	
-	public List<Map<String, Integer>> getVisitedCountriesCountByUser(String username) {
+	public List<Map<String, Object>> getVisitedCountriesCountByUser(String username) {
 		return travelMapRepository.getVisitedCountriesCountByUser(username);
 	}
 	

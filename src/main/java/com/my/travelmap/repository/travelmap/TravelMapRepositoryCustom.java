@@ -5,5 +5,5 @@ import java.util.Map;
 
 public interface TravelMapRepositoryCustom {
 	
-	List<Map<String, Integer>> getVisitedCountriesCountByUser(String username);
+	List<Map<String, Object>> getVisitedCountriesCountByUser(String username);
 }

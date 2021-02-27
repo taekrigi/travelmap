@@ -1,9 +1,15 @@
 package com.my.travelmap.repository.travelmap;
 
+import static com.my.travelmap.entity.QTravelMap.travelMap;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import static com.my.travelmap.entity.QTravelMap.travelMap;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -14,8 +20,8 @@ public class TravelMapRepositoryImpl implements TravelMapRepositoryCustom {
 	private final JPAQueryFactory jpaQueryFactory;
 	
 	@Override
-	public List<Map<String, Integer>> getVisitedCountriesCountByUser(String username) {
-		jpaQueryFactory.from(travelMap)
+	public List<Map<String, Object>> getVisitedCountriesCountByUser(String username) {
+		List<Tuple> data = jpaQueryFactory.from(travelMap)
 			.where(travelMap.user.username.eq(username))
 			.groupBy(travelMap.country)
 			.select(travelMap.country, travelMap.country.count())

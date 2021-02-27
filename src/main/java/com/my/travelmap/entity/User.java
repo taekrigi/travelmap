@@ -31,6 +31,9 @@ public class User extends BaseEntity {
 	@JoinColumn(name = "user_detail_id")
 	private UserDetail userDetail;
 	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<Authority> authorities;
+	
 	public void update(UserParam userParam) {
 		this.username = userParam.getUsername();
 	}

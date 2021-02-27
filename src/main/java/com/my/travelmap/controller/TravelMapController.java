@@ -61,7 +61,7 @@ public class TravelMapController {
 	}
 	
 	@GetMapping("/count/countries/{username}")
-	public List<Map<String, Integer>> getVisitedCountriesCountByUser(@PathVariable("username") String username) {
+	public List<Map<String, Object>> getVisitedCountriesCountByUser(@PathVariable("username") String username) {
 		return travelMapService.getVisitedCountriesCountByUser(username);
 	}
 	
