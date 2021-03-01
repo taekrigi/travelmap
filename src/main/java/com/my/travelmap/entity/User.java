@@ -2,6 +2,7 @@ package com.my.travelmap.entity;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -20,9 +21,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class User extends BaseEntity {
 
+	@Column(name = "username", unique = true)
 	private String username;
 	
-	private String password;
+	private String encryptedPassword;
+	 
+	private String role;
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<TravelMap> travelMaps;

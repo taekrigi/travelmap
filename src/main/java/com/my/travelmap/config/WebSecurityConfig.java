@@ -1,7 +1,11 @@
 package com.my.travelmap.config;
 
+import javax.crypto.SecretKey;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,15 +14,18 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.my.travelmap.security.JWTAuthenticationFilter;
+import com.my.travelmap.security.JwtAuthenticationFilter;
+import com.my.travelmap.security.JwtTokenVerifier;
 
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+
+import static com.my.travelmap.security.SecurityConstants.SECRET;
 
 @Configuration
 @EnableWebSecurity
@@ -26,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	private final PasswordEncoder passwordEncoder;
 	private final UserDetailsService userDetailService;
 	
 	@Override
@@ -35,35 +43,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("**").permitAll()
+				.antMatchers("/h2/**").permitAll()
+				.antMatchers(HttpMethod.POST, "/users").permitAll()
 				.anyRequest().authenticated()
 					.and()
-				.addFilter(new JWTAuthenticationFilter(authenticationManager()))
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-					.and()
-				.headers().defaultsDisabled()
-				.cacheControl()
-					.and()
-				.contentTypeOptions()
-					.and()
-				.contentSecurityPolicy("default-src 'none'")
-					.and()
-				.xssProtection().block(true)
-					.and()
-				.httpStrictTransportSecurity()
-					.and()
-				.frameOptions().deny();
+				.addFilter(new JwtAuthenticationFilter(authenticationManager(), secretKey()))
+				.addFilterAfter(new JwtTokenVerifier(secretKey()), JwtAuthenticationFilter.class)
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-	    web.ignoring().antMatchers("/h2/**");
+	    web.ignoring().antMatchers("/h2/**").antMatchers(HttpMethod.POST, "/users");
 	}
 	
-	@Override
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
-	}
+	 @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(daoAuthenticationProvider());
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder);
+        provider.setUserDetailsService(userDetailService);
+        return provider;
+    }
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
@@ -72,9 +77,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return source;
 	}
 	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-	    return new BCryptPasswordEncoder();
-	}
-
+    @Bean
+    public SecretKey secretKey() {
+        return Keys.hmacShaKeyFor(SECRET.getBytes());
+    }
 }

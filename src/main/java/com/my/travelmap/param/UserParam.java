@@ -12,5 +12,7 @@ public class UserParam {
 	
 	@NotBlank
 	private String password;
+	
+	private String role = "ROLE_USER";
 
 }

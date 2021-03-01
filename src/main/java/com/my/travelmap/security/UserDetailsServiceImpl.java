@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.my.travelmap.repository.user.UserRepository;
@@ -24,16 +25,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		com.my.travelmap.entity.User user = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException(username));
-
+		 
 		Set<SimpleGrantedAuthority> authorities = user.getAuthorities()
 				.stream()
 				.map(auth -> auth.getAuthority())
 				.map(SimpleGrantedAuthority::new)
 				.collect(Collectors.toSet());
 		
+		authorities.add(new SimpleGrantedAuthority(user.getRole()));
+		
 		return new User(
 				user.getUsername(), 
-				user.getPassword(), 
+				user.getEncryptedPassword(), 
 				true, 
 				true, 
 				true, 
