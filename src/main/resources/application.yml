@@ -20,3 +20,10 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+              
+jwt:
+  secret-key: SecretKeyToGenJWTsSecretKeyToGenJWTsSecretKeyToGenJWTsSecretKeyToGenJWTsSecretKeyToGenJWTs
+  prefix: Bearer 
+  header: Authorization
+  expiration-time: 10
+  

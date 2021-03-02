@@ -1,9 +1,5 @@
 package com.my.travelmap.security;
 
-import static com.my.travelmap.security.SecurityConstants.HEADER_STRING;
-import static com.my.travelmap.security.SecurityConstants.SECRET;
-import static com.my.travelmap.security.SecurityConstants.TOKEN_PREFIX;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -34,20 +30,21 @@ import lombok.RequiredArgsConstructor;
 public class JwtTokenVerifier extends OncePerRequestFilter {
 	
 	private final SecretKey secretKey;
+	private final JwtProperties jwtProperties;
 
 	@SuppressWarnings("unchecked")
 	@Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-	    String authorizationHeader = request.getHeader(HEADER_STRING);
+	    String authorizationHeader = request.getHeader(jwtProperties.getHeader());
 
-        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(TOKEN_PREFIX)) {
+        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtProperties.getPrefix())) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = authorizationHeader.replace(TOKEN_PREFIX, "");
+        String token = authorizationHeader.replace(jwtProperties.getPrefix(), "");
         
         try {
     	   Jws<Claims> claimsJws = Jwts.parser()

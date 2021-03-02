@@ -20,12 +20,11 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.my.travelmap.security.JwtAuthenticationFilter;
+import com.my.travelmap.security.JwtProperties;
 import com.my.travelmap.security.JwtTokenVerifier;
 
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-
-import static com.my.travelmap.security.SecurityConstants.SECRET;
 
 @Configuration
 @EnableWebSecurity
@@ -35,6 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final PasswordEncoder passwordEncoder;
 	private final UserDetailsService userDetailService;
+	private final SecretKey secretKey;
+	private final JwtProperties jwtProperties;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -47,8 +48,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/users").permitAll()
 				.anyRequest().authenticated()
 					.and()
-				.addFilter(new JwtAuthenticationFilter(authenticationManager(), secretKey()))
-				.addFilterAfter(new JwtTokenVerifier(secretKey()), JwtAuthenticationFilter.class)
+				.addFilter(new JwtAuthenticationFilter(authenticationManager(), secretKey, jwtProperties))
+				.addFilterAfter(new JwtTokenVerifier(secretKey, jwtProperties), JwtAuthenticationFilter.class)
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
@@ -76,9 +77,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
 		return source;
 	}
-	
-    @Bean
-    public SecretKey secretKey() {
-        return Keys.hmacShaKeyFor(SECRET.getBytes());
-    }
 }

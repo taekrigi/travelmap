@@ -26,7 +26,7 @@ public class TravelMapRepositoryImpl implements TravelMapRepositoryCustom {
 			.groupBy(travelMap.country)
 			.select(travelMap.country, travelMap.country.count())
 			.fetch();
-
+		
 		return null;
 	}
 
