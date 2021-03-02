@@ -5,9 +5,10 @@ spring:
   jpa:
     show-sql: true
   datasource:
-    url: jdbc:h2:mem:travelmap
-    driver-class-name: org.h2.Driver
-    username: taekrigi
+   driver-class-name: com.mysql.cj.jdbc.Driver
+   url: jdbc:mysql://localhost:3306/example?serverTimezone=UTC&characterEncoding=UTF-8
+   username: root
+   password: root
   h2:
     console:
       enabled: true
@@ -20,7 +21,7 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
-              
+ 
 jwt:
   secret-key: SecretKeyToGenJWTsSecretKeyToGenJWTsSecretKeyToGenJWTsSecretKeyToGenJWTsSecretKeyToGenJWTs
   prefix: Bearer 
