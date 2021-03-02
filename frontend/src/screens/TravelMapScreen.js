@@ -16,8 +16,9 @@ const TravelMapScreen = () => {
   const travelMapList = useSelector(state => state.travelMapList)
   const { loading, error, travelMaps } = travelMapList;
 
+  // TODO: SET REAL DATA
   useEffect(() => {
-    dispatch(getTravelMaps("aaaaa"));
+    dispatch(getTravelMaps("userid"));
   }, [dispatch])
 
   return (
@@ -44,7 +45,7 @@ const TravelMapScreen = () => {
         ) : 
        (
         <>
-         <WorldMap color="red" title="Top 10 Populous Countries" value-suffix="people" size="xl" data={[{country: 'us', value: '1'}]} />
+         <WorldMap color="red" title={`${travelMaps.length} Countries you've been to`} size="xl" data={travelMaps} />
          <Modal />
         </>
        )
@@ -54,5 +55,4 @@ const TravelMapScreen = () => {
   )
 }
       
-
 export default TravelMapScreen
