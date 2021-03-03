@@ -3,7 +3,6 @@ package com.my.travelmap.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.my.travelmap.dto.TravelMapDto;
+import com.my.travelmap.dto.VisitedCountryCountDto;
 import com.my.travelmap.param.TravelMapParam;
 import com.my.travelmap.service.TravelMapService;
 
@@ -61,7 +61,7 @@ public class TravelMapController {
 	}
 	
 	@GetMapping("/count/countries/{username}")
-	public List<Map<String, Object>> getVisitedCountriesCountByUser(@PathVariable("username") String username) {
+	public List<VisitedCountryCountDto> getVisitedCountriesCountByUser(@PathVariable("username") String username) {
 		return travelMapService.getVisitedCountriesCountByUser(username);
 	}
 	

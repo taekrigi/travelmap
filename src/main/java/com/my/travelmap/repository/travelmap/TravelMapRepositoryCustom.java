@@ -1,9 +1,10 @@
 package com.my.travelmap.repository.travelmap;
 
 import java.util.List;
-import java.util.Map;
+
+import com.my.travelmap.dto.VisitedCountryCountDto;
 
 public interface TravelMapRepositoryCustom {
 	
-	List<Map<String, Object>> getVisitedCountriesCountByUser(String username);
+	List<VisitedCountryCountDto> getVisitedCountriesCountByUser(String username);
 }

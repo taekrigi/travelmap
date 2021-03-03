@@ -1,7 +1,6 @@
 package com.my.travelmap.service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -9,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.my.travelmap.dto.TravelMapDto;
+import com.my.travelmap.dto.VisitedCountryCountDto;
 import com.my.travelmap.entity.TravelMap;
 import com.my.travelmap.mapper.TravelMapMapper;
 import com.my.travelmap.param.TravelMapParam;
@@ -54,7 +54,7 @@ public class TravelMapService {
 		return travelMapMapper.toDto(travelMap);
 	}
 	
-	public List<Map<String, Object>> getVisitedCountriesCountByUser(String username) {
+	public List<VisitedCountryCountDto> getVisitedCountriesCountByUser(String username) {
 		return travelMapRepository.getVisitedCountriesCountByUser(username);
 	}
 	
