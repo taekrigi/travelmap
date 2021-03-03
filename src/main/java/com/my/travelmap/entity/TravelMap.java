@@ -1,6 +1,7 @@
 package com.my.travelmap.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -24,8 +25,8 @@ public class TravelMap extends BaseEntity {
 	
 	private String longitude;
 	
-	@ManyToOne
-	@JoinColumn(name = "username")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
 	public void update(TravelMapParam travelMapParam) {

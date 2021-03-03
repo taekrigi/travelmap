@@ -1,5 +1,6 @@
 package com.my.travelmap.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -19,7 +20,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Data
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable {
+
+	private static final long serialVersionUID = 6185527718013818299L;
 
 	@Column(name = "username", unique = true)
 	private String username;

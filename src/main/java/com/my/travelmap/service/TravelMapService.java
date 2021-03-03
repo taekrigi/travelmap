@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.my.travelmap.dto.TravelMapDto;
 import com.my.travelmap.dto.VisitedCountryCountDto;
 import com.my.travelmap.entity.TravelMap;
+import com.my.travelmap.entity.User;
 import com.my.travelmap.mapper.TravelMapMapper;
 import com.my.travelmap.param.TravelMapParam;
 import com.my.travelmap.repository.travelmap.TravelMapRepository;
@@ -26,7 +27,7 @@ public class TravelMapService {
 	private final UserService userService;
 	
 	public List<TravelMapDto> getTravelMapsByUsername(String username) {
-		return travelMapMapper.toListDto(travelMapRepository.findAllByUser(username));
+		return travelMapMapper.toListDto(travelMapRepository.findAllByUserUsername(username));
 	}
 	
 	public TravelMapDto getTravelMapById(UUID id) {
@@ -37,6 +38,7 @@ public class TravelMapService {
 	public TravelMapDto addTravelMapByUser(String username, TravelMapParam travelMapParam) {
 		TravelMap travelMap = travelMapMapper.toEntity(travelMapParam);
 		travelMap.setUser(userService.findUserByUsername(username));
+		travelMapRepository.save(travelMap);
 		return travelMapMapper.toDto(travelMap);
 	}
 	

@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UserService {
 	
 	private final UserMapper userMapper;

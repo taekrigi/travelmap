@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,16 +33,19 @@ public class TravelMapController {
 	private final TravelMapService travelMapService;
 	
 	@GetMapping("/user/{username}")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public List<TravelMapDto> getTravelMapsByUsername(@PathVariable("username") String username) {
 		return travelMapService.getTravelMapsByUsername(username);
 	}
 	
 	@GetMapping("{id}")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public TravelMapDto getTravelMapById(@PathVariable("id") UUID id) {
 		return travelMapService.getTravelMapById(id);
 	}
 	
 	@PostMapping("/user/{username}")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public ResponseEntity<TravelMapDto> addTravelMapByUser(
 			@PathVariable("username") String username, 
 			@Valid @RequestBody TravelMapParam travelMapParam
@@ -51,16 +55,19 @@ public class TravelMapController {
 	}
 	
 	@PutMapping("{id}")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public TravelMapDto updateTravelMapById(UUID id, @Valid @RequestBody TravelMapParam travelMapParam) {
 		return travelMapService.updateTravelMapById(id, travelMapParam);
 	}
 	
 	@DeleteMapping("{id}")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public TravelMapDto deleteTravelMapById(UUID id) {
 		return travelMapService.deleteTravelMapById(id);
 	}
 	
 	@GetMapping("/count/countries/{username}")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public List<VisitedCountryCountDto> getVisitedCountriesCountByUser(@PathVariable("username") String username) {
 		return travelMapService.getVisitedCountriesCountByUser(username);
 	}

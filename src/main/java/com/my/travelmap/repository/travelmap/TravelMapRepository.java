@@ -6,8 +6,9 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.my.travelmap.entity.TravelMap;
+import com.my.travelmap.entity.User;
 
 public interface TravelMapRepository extends JpaRepository<TravelMap, UUID>, TravelMapRepositoryCustom {
 
-	List<TravelMap> findAllByUser(String username);
+	List<TravelMap> findAllByUserUsername(String username);
 }
