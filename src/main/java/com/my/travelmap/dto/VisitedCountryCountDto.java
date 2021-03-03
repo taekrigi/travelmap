@@ -1,17 +1,16 @@
 package com.my.travelmap.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class VisitedCountryCountDto {
 	
 	private String country;
 		
-	private int count;
-	
+	private Long count;
 
 }
