@@ -72,4 +72,9 @@ public class TravelMapController {
 		return travelMapService.getVisitedCountriesCountByUser(username);
 	}
 	
+	@GetMapping("/count/countries")
+	public List<VisitedCountryCountDto> getVisitedCountriesCount() {
+		return travelMapService.getVisitedCountriesCount();
+	}
+	
 }

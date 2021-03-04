@@ -3,73 +3,56 @@ import axios from 'axios'
 import {
   TRAVEL_MAP_LIST_REQUEST,
   TRAVEL_MAP_LIST_SUCCESS,
-  TRAVEL_MAP_LIST_FAIL
+  TRAVEL_MAP_LIST_FAIL,
+  VISITED_COUNTRIES_COUNT_REQUEST,
+  VISITED_COUNTRIES_COUNT_SUCCESS,
+  VISITED_COUNTRIES_COUNT_FAIL,
 } from '../constants/travelMapConstants'
 
-export const getTravelMaps = userId => async (disaptch) => {
+export const getTravelMaps = (userId) => async (dispatch) => {
   try {
-    disaptch({ type: TRAVEL_MAP_LIST_REQUEST })
+    dispatch({ type: TRAVEL_MAP_LIST_REQUEST })
 
-    // TODO: SET REAL DATA
-    // const { data } = await axios.get(
-    //   `http://localhost:8080/travelmaps/${userId}`
-    // )
+    const { data } = await axios.get(`/travelmap/user/${userId}`)
 
-    disaptch({
+    dispatch({
       type: TRAVEL_MAP_LIST_SUCCESS,
-      payload: { 
-        travelMaps: 
-          [
-            { 
-              country: 'kr', 
-              value: 1
-            },
-            {
-              country: 'jp',
-              value: 2
-            },
-            {
-              country: 'nz',
-              value: 3
-            },
-            {
-              country: 'de',
-              value: 4
-            },
-            {
-              country: 'at',
-              value: 5
-            },
-            {
-              country: 'cz',
-              value: 6
-            },
-            {
-              country: 'fr',
-              value: 7
-            },
-            {
-              country: 'tw',
-              value: 8
-            },
-            {
-              country: 'vn',
-              value: 9
-            },
-            {
-              country: 'ch',
-              value: 10
-            },
-          ] 
+      payload: {
+        travelMaps: data.map((d) => ({ ...d, value: 1 })),
       },
     })
   } catch (error) {
-    disaptch({
+    dispatch({
       type: TRAVEL_MAP_LIST_FAIL,
-      payload: 
-        error.response && error.response.data.message 
+      payload:
+        error.response && error.response.data.message
           ? error.response.data.message
-          : error.message
+          : error.message,
+    })
+  }
+}
+
+export const getVisitedCountriesCount = (userId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: VISITED_COUNTRIES_COUNT_REQUEST,
+    })
+
+    const { data } = await axios.get(`/travelmap/count/countries`)
+
+    dispatch({
+      type: VISITED_COUNTRIES_COUNT_SUCCESS,
+      payload: {
+        counts: data,
+      },
+    })
+  } catch (error) {
+    dispatch({
+      type: VISITED_COUNTRIES_COUNT_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     })
   }
 }

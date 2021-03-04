@@ -60,6 +60,10 @@ public class TravelMapService {
 		return travelMapRepository.getVisitedCountriesCountByUser(username);
 	}
 	
+	public List<VisitedCountryCountDto> getVisitedCountriesCount() {
+		return travelMapRepository.getVisitedCountriesCount();
+	}
+	
 	private TravelMap findTravelMapById(UUID id) {
 		return CommonUtilService.throwIfNotExist(travelMapRepository.findById(id), id);	
 	}

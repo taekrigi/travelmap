@@ -24,9 +24,22 @@ public class TravelMapRepositoryImpl implements TravelMapRepositoryCustom {
 						VisitedCountryCountDto.class, 
 						travelMap.country, 
 						travelMap.country.count())
-					)
+				)
 				.fetch();
-		
+	}
+	
+	@Override
+	public List<VisitedCountryCountDto> getVisitedCountriesCount() {
+		return jpaQueryFactory.from(travelMap)
+				.groupBy(travelMap.country)
+				.select(
+					Projections.constructor(
+						VisitedCountryCountDto.class,
+						travelMap.country,
+						travelMap.country.count()
+					)
+				)
+				.fetch();
 	}
 
 }

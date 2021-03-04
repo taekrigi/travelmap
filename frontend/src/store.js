@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { travelMapListReducer } from './reducers/travelMapReducer'
 
 const reducer = combineReducers({
-  travelMapList: travelMapListReducer
+  travelMapList: travelMapListReducer,
 })
 
 const middleware = [thunk]
