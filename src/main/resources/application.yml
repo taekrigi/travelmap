@@ -1,12 +1,14 @@
 spring:
   mvc:
     throw-exception-if-no-handler-found: true
-  web:    resources:      add-mappings: false
+  web:
+    resources:
+      add-mappings: false
   jpa:
     show-sql: true
   datasource:
    driver-class-name: com.mysql.cj.jdbc.Driver
-   url: jdbc:mysql://localhost:3306/example?serverTimezone=UTC&characterEncoding=UTF-8
+   url: jdbc:mysql://localhost:3306/travelmap?serverTimezone=UTC&characterEncoding=UTF-8
    username: root
    password: root
   h2:
