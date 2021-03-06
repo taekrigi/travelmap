@@ -1,6 +1,7 @@
 package com.my.travelmap.security;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -56,6 +57,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .signWith(secretKey)
                 .compact();
 	
-		res.addHeader(jwtProperties.getHeader(), jwtProperties.getPrefix() + " " + token);
+		PrintWriter out = res.getWriter();
+		res.setCharacterEncoding("UTF-8");
+		out.print(jwtProperties.getPrefix() + " " + token);
+		out.flush();
 	}
 }

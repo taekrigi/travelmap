@@ -32,7 +32,7 @@ const LoginScreen = () => {
               type='text'
               className='form-control'
               placeholder='Enter username'
-              onChange={(e) => setUsername(e.value)}
+              onChange={(e) => setUsername(e.target.value)}
               value={username}
             />
           </div>
@@ -43,7 +43,7 @@ const LoginScreen = () => {
               type='password'
               className='form-control'
               placeholder='Enter password'
-              onChange={(e) => setPassword(e.value)}
+              onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
           </div>

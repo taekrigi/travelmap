@@ -25,7 +25,7 @@ export const login = ({ username, password }) => async (dispatch) => {
       },
     })
 
-    localStorage.setItem('user', JSON.stringify(data))
+    localStorage.setItem('AUTH_TOKEN', JSON.stringify(data))
   } catch (error) {
     dispatch({
       type: LOGIN_FAIL,
