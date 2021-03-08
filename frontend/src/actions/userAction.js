@@ -21,11 +21,11 @@ export const login = ({ username, password }) => async (dispatch) => {
     dispatch({
       type: LOGIN_SUCCESS,
       payload: {
-        user: data,
+        userInfo: data,
       },
     })
 
-    localStorage.setItem('AUTH_TOKEN', JSON.stringify(data))
+    localStorage.setItem('USER_INFO', JSON.stringify(data))
   } catch (error) {
     dispatch({
       type: LOGIN_FAIL,

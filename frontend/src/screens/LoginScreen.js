@@ -4,16 +4,23 @@ import Loader from '../components/Loader'
 
 import { login } from '../actions/userAction'
 
-const LoginScreen = () => {
+const LoginScreen = ({ location, history }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
 
-  const userInfo = useSelector((state) => state.user)
-  const { loading, error, user } = userInfo
+  const userLogin = useSelector((state) => state.userInfo)
+  const { loading, error, userInfo } = userLogin
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push('/')
+    }
+  }, [userInfo])
 
   const onLogin = (e) => {
+    e.preventDefault()
     dispatch(login({ username, password }))
   }
 
@@ -32,6 +39,7 @@ const LoginScreen = () => {
               type='text'
               className='form-control'
               placeholder='Enter username'
+              autoComplete='false'
               onChange={(e) => setUsername(e.target.value)}
               value={username}
             />
@@ -43,6 +51,7 @@ const LoginScreen = () => {
               type='password'
               className='form-control'
               placeholder='Enter password'
+              autoComplete='false'
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />

@@ -39,9 +39,8 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 	    String authorizationHeader = request.getHeader(jwtProperties.getHeader());
 
-        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtProperties.getPrefix())) {
-            filterChain.doFilter(request, response);
-            return;
+	    if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtProperties.getPrefix())) {
+        	throw new IllegalStateException(String.format("Token is not present"));
         }
 
         String token = authorizationHeader.replace(jwtProperties.getPrefix() + " ", "");

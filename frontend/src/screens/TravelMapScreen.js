@@ -16,12 +16,13 @@ const TravelMapScreen = () => {
   const dispatch = useDispatch()
 
   const travelMapList = useSelector((state) => state.travelMapList)
+  const userInfo = useSelector((state) => state.userInfo)
   const { loading, error, travelMaps, counts } = travelMapList
+  const { name } = userInfo
 
-  // TODO: SET REAL DATA
   useEffect(() => {
-    dispatch(getTravelMaps('user1'))
-    dispatch(getVisitedCountriesCount('user1'))
+    dispatch(getTravelMaps(name))
+    dispatch(getVisitedCountriesCount(name))
   }, [])
 
   return (

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
@@ -15,9 +17,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableMap;
 import com.my.travelmap.param.UserParam;
 
 import io.jsonwebtoken.Jwts;
@@ -56,10 +60,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(2)))
                 .signWith(secretKey)
                 .compact();
-	
+		
 		PrintWriter out = res.getWriter();
 		res.setCharacterEncoding("UTF-8");
-		out.print(jwtProperties.getPrefix() + " " + token);
+		res.setContentType("application/json");
+		
+		Map<String, Object> userInfo = ImmutableMap.of(
+				"name", authResult.getName(),
+				"authorities", authResult.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.toList()),
+				"token", jwtProperties.getPrefix() + " " + token
+		);
+		
+		out.print(new ObjectMapper().writeValueAsString(userInfo));
 		out.flush();
 	}
 }

@@ -6,12 +6,18 @@ import { userReducer } from './reducers/userReducer'
 
 const reducer = combineReducers({
   travelMapList: travelMapListReducer,
-  user: userReducer,
+  userInfo: userReducer,
 })
 
 const middleware = [thunk]
 
-const initialState = {}
+const initialState = {
+  userInfo: JSON.parse(localStorage.getItem('USER_INFO')) || {},
+  travelMapList: {
+    travelMaps: [],
+    counts: [],
+  },
+}
 
 const store = createStore(
   reducer,

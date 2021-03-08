@@ -44,8 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/h2/**", "/login").permitAll()
-				.antMatchers(HttpMethod.POST, "/users").permitAll()
 				.anyRequest().authenticated()
 					.and()
 				.addFilter(new JwtAuthenticationFilter(authenticationManager(), secretKey, jwtProperties))
@@ -55,8 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-	    web.ignoring().antMatchers("/h2/**")
-	    			  .antMatchers(HttpMethod.POST, "/users");
+	    web.ignoring()
+	    			  .antMatchers(HttpMethod.POST, "/users/register");
 	}
 	
 	 @Override
