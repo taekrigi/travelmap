@@ -69,7 +69,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 				"name", authResult.getName(),
 				"authorities", authResult.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList()),
-				"token", jwtProperties.getPrefix() + " " + token
+				"token", jwtProperties.getPrefix() + " " + token,
+				"loggedIn", true
 		);
 		
 		out.print(new ObjectMapper().writeValueAsString(userInfo));

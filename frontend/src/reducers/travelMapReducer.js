@@ -5,6 +5,7 @@ import {
   VISITED_COUNTRIES_COUNT_REQUEST,
   VISITED_COUNTRIES_COUNT_SUCCESS,
   VISITED_COUNTRIES_COUNT_FAIL,
+  TRAVEL_MAP_CLEAR,
 } from '../constants/travelMapConstants'
 
 export const travelMapListReducer = (
@@ -24,6 +25,8 @@ export const travelMapListReducer = (
       return { ...state, loading: false, counts: action.payload.counts }
     case VISITED_COUNTRIES_COUNT_FAIL:
       return { ...state, loading: false, error: action.payload }
+    case TRAVEL_MAP_CLEAR:
+      return { ...state, travelMaps: [] }
     default:
       return state
   }

@@ -41,7 +41,7 @@ public class UserController {
 		return userService.getUserByUsername(username);
 	}
 	
-	@PostMapping
+	@PostMapping("register")
 	public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserParam userParam) throws URISyntaxException {
 		UserDto userDto = userService.addUser(userParam);
 		return ResponseEntity.created(new URI("/users/" + userDto.getUsername())).body(userDto);

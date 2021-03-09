@@ -1,7 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Header = () => {
+  const userInfo = useSelector((state) => state.userInfo)
+
+  const { name } = userInfo
+
   return (
     <nav className='navbar navbar-expand-md navbar-dark bg-dark mb-4'>
       <a className='navbar-brand' href='#'>
@@ -25,16 +30,25 @@ const Header = () => {
               Home <span className='sr-only'>(current)</span>
             </Link>
           </li>
-          <li className='nav-item'>
-            <Link to='/login' className='nav-link' href='#'>
-              Login
+
+          {!name ? (
+            <>
+              <li className='nav-item'>
+                <Link to='/login' className='nav-link' href='#'>
+                  Login
+                </Link>
+              </li>
+              <li className='nav-item'>
+                <Link to='/register' className='nav-link' href='#'>
+                  Register
+                </Link>
+              </li>
+            </>
+          ) : (
+            <Link to='/logout' className='nav-link' href='#'>
+              Logout
             </Link>
-          </li>
-          <li className='nav-item'>
-            <Link to='/register' className='nav-link' href='#'>
-              Register
-            </Link>
-          </li>
+          )}
         </ul>
       </div>
     </nav>

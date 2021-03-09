@@ -6,6 +6,7 @@ import Footer from './components/Footer'
 import TravelMapScreen from './screens/TravelMapScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
+import LogoutScreen from './screens/LogoutScreen'
 
 const App = () => {
   return (
@@ -14,9 +15,11 @@ const App = () => {
         <Header />
         <Container>
           <Route path='/' component={TravelMapScreen} exact />
-          <Route path='/login' component={LoginScreen} />
-          <Route path='/register' component={RegisterScreen} />
+          <Route path='/login' component={LoginScreen} exact />
+          <Route path='/register' component={RegisterScreen} exact />
+          <Route path='/logout' component={LogoutScreen} exact />
         </Container>
+        <Footer />
       </main>
     </Router>
   )

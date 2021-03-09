@@ -23,7 +23,6 @@ import com.my.travelmap.security.JwtAuthenticationFilter;
 import com.my.travelmap.security.JwtProperties;
 import com.my.travelmap.security.JwtTokenVerifier;
 
-import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -44,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.csrf().disable()
 			.authorizeRequests()
+				.antMatchers(HttpMethod.POST, "/users/register").permitAll()
 				.anyRequest().authenticated()
 					.and()
 				.addFilter(new JwtAuthenticationFilter(authenticationManager(), secretKey, jwtProperties))
@@ -51,13 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-	    web.ignoring()
-	    			  .antMatchers(HttpMethod.POST, "/users/register");
-	}
 	
-	 @Override
+	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }

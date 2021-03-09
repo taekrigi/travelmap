@@ -1,16 +1,59 @@
-import React from 'react'
+import React, { useReducer } from 'react'
+import { useDispatch } from 'react-redux'
+import { register } from '../actions/userAction'
 
-const RegisterScreen = () => {
+const CHANGE_NAME = 'CHANGE_NAME'
+const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
+const CHANGE_PASSWORD2 = 'CHANGE_PASSWORD2'
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case CHANGE_NAME:
+      return { ...state, username: action.payload }
+    case CHANGE_PASSWORD:
+      return { ...state, password: action.payload }
+    case CHANGE_PASSWORD2:
+      return { ...state, password2: action.payload }
+    default:
+      return state
+  }
+}
+
+const RegisterScreen = ({ history }) => {
+  const [state, localDisaptch] = useReducer(reducer, {
+    username: '',
+    password: '',
+    password2: '',
+  })
+
+  const dispatch = useDispatch()
+
+  const changeInput = (type) => (e) => {
+    localDisaptch({ type, payload: e.target.value })
+  }
+
+  const onRegister = (e) => {
+    e.preventDefault()
+
+    if (state.password !== state.password2) {
+      alert('비밀번호가 일치하지 않습니다.')
+      return
+    }
+
+    dispatch(register(state, history))
+  }
+
   return (
-    <form>
+    <form onSubmit={onRegister}>
       <h3>Register</h3>
 
       <div className='form-group'>
-        <label>Email address</label>
+        <label>Username</label>
         <input
-          type='email'
+          type='type'
           className='form-control'
-          placeholder='Enter email'
+          placeholder='Enter username'
+          onChange={changeInput(CHANGE_NAME)}
         />
       </div>
 
@@ -20,6 +63,17 @@ const RegisterScreen = () => {
           type='password'
           className='form-control'
           placeholder='Enter password'
+          onChange={changeInput(CHANGE_PASSWORD)}
+        />
+      </div>
+
+      <div className='form-group'>
+        <label>Password2</label>
+        <input
+          type='password'
+          className='form-control'
+          placeholder='Enter password'
+          onChange={changeInput(CHANGE_PASSWORD2)}
         />
       </div>
 

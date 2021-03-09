@@ -10,14 +10,14 @@ const LoginScreen = ({ location, history }) => {
 
   const dispatch = useDispatch()
 
-  const userLogin = useSelector((state) => state.userInfo)
-  const { loading, error, userInfo } = userLogin
+  const userInfo = useSelector((state) => state.userInfo)
+  const { loading, error, name } = userInfo
 
   useEffect(() => {
-    if (!userInfo) {
+    if (name) {
       history.push('/')
     }
-  }, [userInfo])
+  })
 
   const onLogin = (e) => {
     e.preventDefault()
@@ -41,7 +41,6 @@ const LoginScreen = ({ location, history }) => {
               placeholder='Enter username'
               autoComplete='false'
               onChange={(e) => setUsername(e.target.value)}
-              value={username}
             />
           </div>
 
@@ -53,7 +52,6 @@ const LoginScreen = ({ location, history }) => {
               placeholder='Enter password'
               autoComplete='false'
               onChange={(e) => setPassword(e.target.value)}
-              value={password}
             />
           </div>
 

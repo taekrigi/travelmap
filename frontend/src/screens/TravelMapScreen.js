@@ -21,6 +21,7 @@ const TravelMapScreen = () => {
   const { name } = userInfo
 
   useEffect(() => {
+    if (!name) return
     dispatch(getTravelMaps(name))
     dispatch(getVisitedCountriesCount(name))
   }, [])

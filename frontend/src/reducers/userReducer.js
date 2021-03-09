@@ -5,6 +5,7 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  LOG_OUT,
 } from '../constants/userConstants'
 
 export const userReducer = (state = {}, action) => {
@@ -12,7 +13,7 @@ export const userReducer = (state = {}, action) => {
     case LOGIN_REQUEST:
       return { ...state, loading: true }
     case LOGIN_SUCCESS:
-      return { ...state, loading: false, userInfo: action.payload.userInfo }
+      return { ...state, loading: false, ...action.payload.userInfo }
     case LOGIN_FAIL:
       return { ...state, loading: false, error: action.payload }
     case REGISTER_REQUEST:
@@ -21,6 +22,8 @@ export const userReducer = (state = {}, action) => {
       return { ...state, loading: false }
     case REGISTER_FAIL:
       return { ...state, loading: false, error: action.payload }
+    case LOG_OUT:
+      return {}
     default:
       return state
   }

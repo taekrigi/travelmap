@@ -7,7 +7,10 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  LOG_OUT,
 } from '../constants/userConstants'
+
+import { TRAVEL_MAP_CLEAR } from '../constants/travelMapConstants'
 
 export const login = ({ username, password }) => async (dispatch) => {
   try {
@@ -37,23 +40,28 @@ export const login = ({ username, password }) => async (dispatch) => {
   }
 }
 
-export const register = ({ username, password }) => async (dispatch) => {
+export const register = ({ username, password }, history) => async (
+  dispatch
+) => {
   try {
     dispatch({
       type: REGISTER_REQUEST,
     })
 
-    const { data } = await axios.post('/register', {
+    const { data } = await axios.post('/users/register', {
       username,
       password,
     })
 
     dispatch({
-      REGISTER_SUCCESS,
+      type: REGISTER_SUCCESS,
       payload: {
-        user: data,
+        success: true,
       },
     })
+
+    alert('회원가입이 완료되었습니다.')
+    history.push('/login')
   } catch (error) {
     dispatch({
       type: REGISTER_FAIL,
@@ -63,4 +71,14 @@ export const register = ({ username, password }) => async (dispatch) => {
           : error.message,
     })
   }
+}
+
+export const logout = () => async (dispatch) => {
+  dispatch({
+    type: LOG_OUT,
+  })
+  dispatch({
+    type: TRAVEL_MAP_CLEAR,
+  })
+  localStorage.removeItem('USER_INFO')
 }
