@@ -14,9 +14,13 @@ const TravelMapChangeScreen = () => {
   const [showModal, setShowModal] = useState(false)
   const [country, setCountry] = useState(null)
   const [date, setDate] = useState(null)
+  const [travelMapAdded, setTravelMapAdded] = useState(false)
 
   const hideModal = () => setShowModal(false)
-  const showAddModal = () => setShowModal(true)
+  const showAddModal = () => {
+    setShowModal(true)
+    setTravelMapAdded(false)
+  }
 
   const addTravelMap = async () => {
     try {
@@ -30,6 +34,7 @@ const TravelMapChangeScreen = () => {
       setCountry(null)
       setDate(null)
       hideModal()
+      setTravelMapAdded(true)
     } catch (error) {
       console.error(
         error.response && error.response.data.message
@@ -41,7 +46,7 @@ const TravelMapChangeScreen = () => {
 
   useEffect(() => {
     dispatch(getTravelMaps(name))
-  }, [])
+  }, [travelMapAdded])
 
   return (
     <>
