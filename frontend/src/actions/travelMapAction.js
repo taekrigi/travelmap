@@ -56,3 +56,5 @@ export const getVisitedCountriesCount = (userId) => async (dispatch) => {
     })
   }
 }
+
+const removeTravelMap = (id) => {}
