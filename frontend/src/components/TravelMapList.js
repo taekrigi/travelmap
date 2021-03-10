@@ -10,6 +10,7 @@ const TravelMapList = ({ travelMaps }) => {
             <th>#</th>
             <th>Country</th>
             <th>City</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -23,6 +24,7 @@ const TravelMapList = ({ travelMaps }) => {
                 <td>{index + 1}</td>
                 <td>{country}</td>
                 <td>{city}</td>
+                <td>❌</td>
               </tr>
             ))
           )}

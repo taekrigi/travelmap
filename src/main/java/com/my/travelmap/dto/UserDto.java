@@ -21,5 +21,7 @@ public class UserDto {
 
 	private LocalDateTime updatedAt;
 	
+	private String role;
+	
 	private List<TravelMapDto> travelMaps;
 }

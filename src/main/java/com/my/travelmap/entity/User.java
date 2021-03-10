@@ -44,4 +44,8 @@ public class User extends BaseEntity implements Serializable {
 	public void update(UserParam userParam) {
 		this.username = userParam.getUsername();
 	}
+		
+	public void updateRole(String role) {
+		this.role = role;
+	}
 }

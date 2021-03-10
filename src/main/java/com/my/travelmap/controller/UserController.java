@@ -58,4 +58,10 @@ public class UserController {
 	public UserDto deleteUser(@PathVariable("username") String username) {
 		return userService.deleteUser(username);
 	}
+	
+	@PutMapping("{username}/role/{role}")	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public UserDto updateUserRole(@PathVariable("role") String role, @PathVariable("username") String username) {
+		return userService.updateUserRole(role, username);
+	}
 }

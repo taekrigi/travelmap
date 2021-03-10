@@ -18,7 +18,7 @@ spring:
 logging:
   level:
     org:
-      hibernate:
+      hibernate: 
         type:
           descriptor:
             sql:
