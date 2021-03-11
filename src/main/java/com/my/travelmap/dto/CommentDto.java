@@ -18,7 +18,7 @@ public class CommentDto {
 	
 	private String content;
 	
-	private LocalDateTime creaetedAt;
+	private LocalDateTime createdAt;
 	
 	private LocalDateTime updatedAt;
 }

@@ -3,6 +3,7 @@ package com.my.travelmap.entity.base;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,6 +24,7 @@ public abstract class BaseEntity {
   @Id
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
+  @Column(columnDefinition = "BINARY(16)")
   private UUID id;
 
   @CreatedDate

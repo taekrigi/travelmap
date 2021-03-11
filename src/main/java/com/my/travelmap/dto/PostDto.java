@@ -20,7 +20,9 @@ public class PostDto {
 	
 	private String content;
 	
-	private LocalDateTime creaetedAt;
+	private LocalDateTime createdAt;
 	
 	private LocalDateTime updatedAt;
+	
+	private CommentDto commentDto;
 }
