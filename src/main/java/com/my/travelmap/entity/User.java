@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.my.travelmap.entity.base.BaseEntity;
 import com.my.travelmap.param.UserParam;
 
 import lombok.Data;
@@ -38,7 +39,7 @@ public class User extends BaseEntity implements Serializable {
 	@JoinColumn(name = "user_detail_id")
 	private UserDetail userDetail;
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Authority> authorities;
 	
 	public void update(UserParam userParam) {

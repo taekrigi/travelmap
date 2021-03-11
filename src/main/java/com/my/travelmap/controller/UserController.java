@@ -37,7 +37,7 @@ public class UserController {
 	
 	@GetMapping("{username}")
 	@PreAuthorize("hasRole('ROLE_ADMIN') or (hasRole('ROLE_USER') and #username == authentication.name)")
-	public UserDto getUserByUsername(@PathVariable("username") String username) {
+    public UserDto getUserByUsername(@PathVariable("username") String username) {
 		return userService.getUserByUsername(username);
 	}
 	

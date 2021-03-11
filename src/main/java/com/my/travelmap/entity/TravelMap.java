@@ -5,6 +5,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.my.travelmap.entity.base.BaseEntity;
 import com.my.travelmap.param.TravelMapParam;
 
 import lombok.Data;

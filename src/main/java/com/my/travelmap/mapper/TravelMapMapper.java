@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 
 import com.my.travelmap.dto.TravelMapDto;
 import com.my.travelmap.entity.TravelMap;
+import com.my.travelmap.mapper.base.BaseMapper;
 import com.my.travelmap.param.TravelMapParam;
 
 @Mapper(componentModel = "spring")

@@ -1,4 +1,4 @@
-package com.my.travelmap.entity;
+package com.my.travelmap.entity.base;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

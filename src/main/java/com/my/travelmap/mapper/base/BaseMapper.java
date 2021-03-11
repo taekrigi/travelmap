@@ -1,4 +1,4 @@
-package com.my.travelmap.mapper;
+package com.my.travelmap.mapper.base;
 
 import java.util.List;
 import java.util.stream.Collectors;

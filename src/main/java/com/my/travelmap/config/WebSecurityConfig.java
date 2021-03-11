@@ -43,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().disable()
 			.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/users/register").permitAll()
+				.antMatchers("/post/**").permitAll()
 				.anyRequest().authenticated()
 					.and()
 				.addFilter(new JwtAuthenticationFilter(authenticationManager(), secretKey, jwtProperties))

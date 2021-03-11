@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 
 import com.my.travelmap.dto.UserDto;
 import com.my.travelmap.entity.User;
+import com.my.travelmap.mapper.base.BaseMapper;
 import com.my.travelmap.param.UserParam;
 
 @Mapper(componentModel = "spring", uses = PasswordEncoderMapper.class)
