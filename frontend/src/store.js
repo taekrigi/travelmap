@@ -3,24 +3,17 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { travelMapListReducer } from './reducers/travelMapReducer'
 import { userReducer } from './reducers/userReducer'
-import { testReducer } from './test/testReducer'
+import { postReducer } from './reducers/postReducer'
 
 const reducer = combineReducers({
   travelMapList: travelMapListReducer,
   userInfo: userReducer,
-  test: testReducer,
+  post: postReducer,
 })
 
 const middleware = [thunk]
 
-const initialState = {
-  userInfo: JSON.parse(localStorage.getItem('USER_INFO')) || {},
-  travelMapList: {
-    travelMaps: [],
-    counts: [],
-  },
-  test: true,
-}
+const initialState = {}
 
 const store = createStore(
   reducer,

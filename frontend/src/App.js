@@ -8,7 +8,8 @@ import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import LogoutScreen from './screens/LogoutScreen'
 import TravelMapChangeScreen from './screens/TravelMapChangeScreen'
-import TestScreen from './test/TestScreen'
+import PostScreen from './screens/PostScreen'
+import PostAddScreen from './screens/PostAddScreen'
 
 const App = () => {
   return (
@@ -25,7 +26,8 @@ const App = () => {
             component={TravelMapChangeScreen}
             exact
           />
-          <Route path='/test' component={TestScreen} exact />
+          <Route path='/post' component={PostScreen} exact />
+          <Route path='/post/add' component={PostAddScreen} exact />
         </Container>
         <Footer />
       </main>

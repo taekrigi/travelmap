@@ -5,6 +5,7 @@ spring:
     resources:
       add-mappings: false
   jpa:
+    hibernate:      ddl-auto: create
     show-sql: true
   datasource:
    driver-class-name: com.mysql.cj.jdbc.Driver
