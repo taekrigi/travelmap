@@ -1,7 +1,9 @@
 import React from 'react'
 import { Table } from 'react-bootstrap'
 
-const TravelMapList = ({ travelMaps }) => {
+const TravelMapList = ({ travelMapList }) => {
+  const removeTravelMap = (id) => {}
+
   return (
     <>
       <Table>
@@ -14,17 +16,17 @@ const TravelMapList = ({ travelMaps }) => {
           </tr>
         </thead>
         <tbody>
-          {travelMaps.length === 0 ? (
+          {travelMapList.length === 0 ? (
             <tr>
               <td colSpan='4'>목록이 없습니다.</td>
             </tr>
           ) : (
-            travelMaps.map(({ id, city, country }, index) => (
+            travelMapList.map(({ id, city, country }, index) => (
               <tr key={id}>
                 <td>{index + 1}</td>
                 <td>{country}</td>
                 <td>{city}</td>
-                <td>❌</td>
+                <td onClick={() => {}}>❌</td>
               </tr>
             ))
           )}

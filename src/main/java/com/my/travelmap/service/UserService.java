@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.my.travelmap.dto.UserDto;
 import com.my.travelmap.entity.User;
+import com.my.travelmap.error.UserAlreadyExistsException;
 import com.my.travelmap.mapper.UserMapper;
 import com.my.travelmap.param.UserParam;
 import com.my.travelmap.repository.user.UserRepository;
@@ -34,8 +35,9 @@ public class UserService {
 
 	@Transactional
 	public UserDto addUser(UserParam userParam) {
-		User user = userRepository.save(userMapper.toEntity(userParam));
-		return userMapper.toDto(user);
+		boolean hasUser = userRepository.existsByUsername(userParam.getUsername());
+		if (hasUser) throw new UserAlreadyExistsException(userParam.getUsername());
+		return userMapper.toDto(userRepository.save(userMapper.toEntity(userParam)));
 	}
 
 	@Transactional
@@ -50,15 +52,15 @@ public class UserService {
 		User user = userRepository.deleteByUsername(username);
 		return userMapper.toDto(user);
 	}
-	
-	public User findUserByUsername(String username) {
-		return CommonUtilService.throwIfNotExist(userRepository.findByUsername(username), username);
-	}
 
 	@Transactional
 	public UserDto updateUserRole(String role, String username) {
 		User user = findUserByUsername(username);
 		user.updateRole(UserRole.of(role).getRole());
 		return userMapper.toDto(user);
+	}
+	
+	public User findUserByUsername(String username) {
+		return CommonUtilService.throwIfNotExist(userRepository.findByUsername(username), username);
 	}
 }

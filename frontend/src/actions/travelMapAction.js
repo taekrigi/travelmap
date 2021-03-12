@@ -17,9 +17,7 @@ export const getTravelMaps = (userId) => async (dispatch) => {
 
     dispatch({
       type: TRAVEL_MAP_LIST_SUCCESS,
-      payload: {
-        travelMaps: data.map((d) => ({ ...d, value: 1 })),
-      },
+      payload: data.map((travelMap) => ({ ...travelMap, value: 1 })),
     })
   } catch (error) {
     dispatch({
@@ -32,7 +30,7 @@ export const getTravelMaps = (userId) => async (dispatch) => {
   }
 }
 
-export const getVisitedCountriesCount = (userId) => async (dispatch) => {
+export const getVisitedCountriesCount = () => async (dispatch) => {
   try {
     dispatch({
       type: VISITED_COUNTRIES_COUNT_REQUEST,
@@ -42,9 +40,7 @@ export const getVisitedCountriesCount = (userId) => async (dispatch) => {
 
     dispatch({
       type: VISITED_COUNTRIES_COUNT_SUCCESS,
-      payload: {
-        counts: data,
-      },
+      payload: data,
     })
   } catch (error) {
     dispatch({

@@ -1,19 +1,32 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { travelMapListReducer } from './reducers/travelMapReducer'
+import { travelMapReducer } from './reducers/travelMapReducer'
 import { userReducer } from './reducers/userReducer'
 import { postReducer } from './reducers/postReducer'
 
 const reducer = combineReducers({
-  travelMapList: travelMapListReducer,
-  userInfo: userReducer,
+  travelMap: travelMapReducer,
+  user: userReducer,
   post: postReducer,
 })
 
 const middleware = [thunk]
 
-const initialState = {}
+const initialState = {
+  user: {
+    user: {},
+    loggedIn: false,
+  },
+  travelMap: {
+    travelMapList: [],
+    countList: [],
+  },
+  post: {
+    postList: [],
+    post: {},
+  },
+}
 
 const store = createStore(
   reducer,

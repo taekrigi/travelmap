@@ -22,14 +22,26 @@ public class RestExceptionHandler {
     private final static String NOT_FOUND = "Not Found";
     private final static String UNAUTHORIZED = "Unauthorized";
     
-    @ExceptionHandler(value = {IllegalArgumentException.class})
+    @ExceptionHandler(value = {IllegalArgumentException.class, UserAlreadyExistsException.class})
     public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(Exception e) {
         return buildResponseEntity(
         		new ExceptionResponse(
-        				BAD_REQUEST, 
-        				e.getMessage(), 
-        				HttpStatus.BAD_REQUEST)
-        		);
+    				BAD_REQUEST, 
+    				e.getMessage(), 
+    				HttpStatus.BAD_REQUEST
+    			)
+    		);
+    }
+    
+    @ExceptionHandler(value = IllegalStateException.class)
+    public ResponseEntity<ExceptionResponse> handleIllegalStateExceptionn(Exception e) {
+        return buildResponseEntity(
+        		new ExceptionResponse(
+    				BAD_REQUEST, 
+    				e.getMessage(), 
+    				HttpStatus.BAD_REQUEST
+    			)
+    		);
     }
     
     @ExceptionHandler(value = NoHandlerFoundException.class)
@@ -38,8 +50,9 @@ public class RestExceptionHandler {
         		new ExceptionResponse(
     				NOT_FOUND, 
     				NOT_FOUND, 
-    				HttpStatus.NOT_FOUND)
-        		);
+    				HttpStatus.NOT_FOUND
+    			)
+        	);
     }
     
     @ExceptionHandler(value = ResponseStatusException.class)
@@ -71,8 +84,9 @@ public class RestExceptionHandler {
         		new ExceptionResponse(
     				INTERNAL_SERVER_ERROR, 
     				INTERNAL_SERVER_ERROR, 
-    				HttpStatus.INTERNAL_SERVER_ERROR)
-        		);
+    				HttpStatus.INTERNAL_SERVER_ERROR
+    			)
+        	);
     }
     
     @ExceptionHandler(value = {HttpRequestMethodNotSupportedException.class})
@@ -81,9 +95,9 @@ public class RestExceptionHandler {
         		new ExceptionResponse(
     				NOT_FOUND, 
     				NOT_FOUND, 
-    				HttpStatus.NOT_FOUND)
-        		);
-    	
+    				HttpStatus.NOT_FOUND
+    			)
+        	);
     }
     
     @ExceptionHandler(value = {AccessDeniedException.class}) 
@@ -92,16 +106,17 @@ public class RestExceptionHandler {
         		new ExceptionResponse(
     				UNAUTHORIZED, 
     				UNAUTHORIZED, 
-    				HttpStatus.UNAUTHORIZED)
-        		);
-    	
+    				HttpStatus.UNAUTHORIZED
+    			)
+    		);	
     }
 
     private ResponseEntity<ExceptionResponse> buildResponseEntity(ExceptionResponse exceptionResponse) {
         logger.error("Handling error - {}", exceptionResponse);
         return new ResponseEntity<>(
         		exceptionResponse, 
-        		HttpStatus.valueOf(exceptionResponse.getStatus())
-        	   );
+        		HttpStatus.valueOf(exceptionResponse.getStatus()
+        	)
+       );
     }
 }

@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const Menu = () => {
-  const userInfo = useSelector((state) => state.userInfo)
-  const { name, authorities } = userInfo
+  const user = useSelector((state) => state.user)
+  const { name, authorities } = user
 
   return (
     <ul className='navbar-nav mr-auto'>

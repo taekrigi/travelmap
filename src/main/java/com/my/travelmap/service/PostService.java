@@ -57,6 +57,10 @@ public class PostService {
 		return commentMapper.toListDto(post.getComments());
 	}
 	
+	public CommentDto getCommentById(UUID commentId) {
+		return commentMapper.toDto(findCommentById(commentId));
+	}
+	
 	public CommentDto addCommentInPost(UUID id, CommentParam commentParam) {
 		Post post = findPostById(id);
 		Comment comment = commentMapper.toEntity(commentParam);

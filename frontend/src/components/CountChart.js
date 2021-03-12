@@ -2,17 +2,17 @@ import React from 'react'
 import { HorizontalBar } from 'react-chartjs-2'
 import { MDBContainer } from 'mdbreact'
 
-const CountChart = ({ counts }) => {
+const CountChart = ({ countList }) => {
   return (
     <MDBContainer>
       <h3 className='mt-5'>Visted Country chart by All Users</h3>
       <HorizontalBar
         data={{
-          labels: counts.map((c) => c.country),
+          labels: countList.map((c) => c.country),
           datasets: [
             {
               label: 'My First Dataset',
-              data: counts.map((c) => c.count),
+              data: countList.map((c) => c.count),
               fill: false,
               backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

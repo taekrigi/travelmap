@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.my.travelmap.dto.TravelMapDto;
 import com.my.travelmap.dto.VisitedCountryCountDto;
 import com.my.travelmap.entity.TravelMap;
-import com.my.travelmap.entity.User;
 import com.my.travelmap.mapper.TravelMapMapper;
 import com.my.travelmap.param.TravelMapParam;
 import com.my.travelmap.repository.travelmap.TravelMapRepository;

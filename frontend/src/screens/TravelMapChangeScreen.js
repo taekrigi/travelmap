@@ -8,8 +8,8 @@ import axios from 'axios'
 
 const TravelMapChangeScreen = () => {
   const dispatch = useDispatch()
-  const { name } = useSelector((state) => state.userInfo)
-  const { travelMaps } = useSelector((state) => state.travelMapList)
+  const { name } = useSelector((state) => state.user)
+  const { travelMapList } = useSelector((state) => state.travelMap)
 
   const [showModal, setShowModal] = useState(false)
   const [country, setCountry] = useState(null)
@@ -57,7 +57,7 @@ const TravelMapChangeScreen = () => {
       >
         추가
       </Button>
-      <TravelMapList travelMaps={travelMaps} />
+      <TravelMapList c={travelMapList} />
       <Modal
         show={showModal}
         onHide={hideModal}

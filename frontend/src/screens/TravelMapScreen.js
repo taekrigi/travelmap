@@ -11,14 +11,13 @@ import {
 } from '../actions/travelMapAction'
 
 const TravelMapScreen = () => {
-  const [showAddTravelMapModal, setShowAddTravelMapModal] = useState(false)
-
   const dispatch = useDispatch()
 
-  const travelMapList = useSelector((state) => state.travelMapList)
-  const userInfo = useSelector((state) => state.userInfo)
-  const { loading, error, travelMaps, counts } = travelMapList
-  const { name } = userInfo
+  const travelMap = useSelector((state) => state.travelMap)
+  const user = useSelector((state) => state.user)
+  console.log(user)
+  const { loading, error, travelMapList, countList } = travelMap
+  const { name } = user
 
   useEffect(() => {
     if (!name) return
@@ -31,25 +30,14 @@ const TravelMapScreen = () => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <>
-          <Modal show={showAddTravelMapModal}>
-            <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              Woohoo, you're reading this text in a modal!
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant='secondary'>Close</Button>
-              <Button variant='primary'>Save Changes</Button>
-            </Modal.Footer>
-          </Modal>
-        </>
+        <>에러</>
       ) : (
         <>
-          <h3 className='mt-5'>{travelMaps.length} Countries you've been to</h3>
-          <WorldMap color='green' size='xl' data={travelMaps} />
-          <CountChart counts={counts} />
+          <h3 className='mt-5'>
+            {travelMapList.length} Countries you've been to
+          </h3>
+          <WorldMap color='green' size='xl' data={travelMapList} />
+          <CountChart countList={countList} />
           <Modal />
         </>
       )}

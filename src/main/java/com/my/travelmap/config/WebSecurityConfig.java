@@ -1,10 +1,10 @@
 package com.my.travelmap.config;
 
 import javax.crypto.SecretKey;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,8 +15,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import com.my.travelmap.security.JwtAuthenticationFilter;
 import com.my.travelmap.security.JwtProperties;
@@ -39,18 +39,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.cors()
-				.and()
-			.csrf().disable()
-			.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/users/register").permitAll()
-				.antMatchers("/post/**").permitAll()
-				.anyRequest().authenticated()
-					.and()
-				.addFilter(new JwtAuthenticationFilter(authenticationManager(), secretKey, jwtProperties))
-				.addFilterAfter(new JwtTokenVerifier(secretKey, jwtProperties), JwtAuthenticationFilter.class)
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+			.and().csrf().disable()
+				.sessionManagement()
+					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+				.exceptionHandling()
+					.authenticationEntryPoint((request, response, ex) -> {
+						response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+					})
+			.and()
+				.authorizeRequests()
+				.anyRequest().permitAll()
+			.and()
+				.addFilter(
+					new JwtAuthenticationFilter(
+							authenticationManager(), 
+							secretKey, 
+							jwtProperties
+					)				)
+				.addFilterAfter(
+					new JwtTokenVerifier(secretKey, jwtProperties), 
+					JwtAuthenticationFilter.class
+				);
 	}
-
 	
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -64,11 +75,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(userDetailService);
         return provider;
     }
-
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-		return source;
-	}
+    
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
 }

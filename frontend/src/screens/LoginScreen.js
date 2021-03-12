@@ -10,8 +10,8 @@ const LoginScreen = ({ location, history }) => {
 
   const dispatch = useDispatch()
 
-  const userInfo = useSelector((state) => state.userInfo)
-  const { loading, error, name } = userInfo
+  const user = useSelector((state) => state.user)
+  const { loading, error, name } = user
 
   useEffect(() => {
     if (name) {

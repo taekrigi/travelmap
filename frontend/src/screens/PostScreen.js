@@ -8,7 +8,7 @@ const PostScreen = () => {
   const dispatch = useDispatch()
   const postState = useSelector((state) => state.post)
   const { postList, error } = postState
-  console.log(postState)
+
   useEffect(() => {
     dispatch(getPosts())
   }, [])

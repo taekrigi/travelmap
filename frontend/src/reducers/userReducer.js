@@ -8,12 +8,18 @@ import {
   LOG_OUT,
 } from '../constants/userConstants'
 
-export const userReducer = (state = {}, action) => {
+export const userReducer = (
+  state = {
+    user: {},
+    loggedIn: false,
+  },
+  action
+) => {
   switch (action.type) {
     case LOGIN_REQUEST:
       return { ...state, loading: true }
     case LOGIN_SUCCESS:
-      return { ...state, loading: false, ...action.payload.userInfo }
+      return { ...state, loading: false, user: action.payload, loggedIn: true }
     case LOGIN_FAIL:
       return { ...state, loading: false, error: action.payload }
     case REGISTER_REQUEST:
@@ -23,7 +29,7 @@ export const userReducer = (state = {}, action) => {
     case REGISTER_FAIL:
       return { ...state, loading: false, error: action.payload }
     case LOG_OUT:
-      return {}
+      return { ...state, user: {}, loggedIn: false }
     default:
       return state
   }

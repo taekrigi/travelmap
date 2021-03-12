@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.my.travelmap.dto.CommentDto;
 import com.my.travelmap.dto.PostDto;
+import com.my.travelmap.entity.Comment;
+import com.my.travelmap.param.CommentParam;
 import com.my.travelmap.param.PostParam;
 import com.my.travelmap.service.PostService;
 
@@ -53,4 +56,31 @@ public class PostController {
 	public PostDto deletePost(@PathVariable UUID id) {
 		return postService.deletePost(id);
 	}
+	
+	@GetMapping("{id}/comments")
+	public List<CommentDto> getCommentsInPost(UUID id) {
+		return postService.getCommentsInPost(id);
+	}
+	
+	@GetMapping("/comment/{commentId}")
+	public CommentDto getCommentById(@PathVariable UUID commentId) {
+		return postService.getCommentById(commentId);
+	}
+	
+	@PostMapping("{id}/comment")
+	public ResponseEntity<CommentDto> addCommentInPost(@PathVariable UUID id, @RequestBody CommentParam commentParam) throws URISyntaxException {
+		CommentDto comment = postService.addCommentInPost(id, commentParam);
+		return ResponseEntity.created(new URI("/comment/" + comment.getId())).body(comment);
+	}
+	
+	@PutMapping("{id}/comment/{commentId}")
+	public CommentDto updateCommentInPost(@PathVariable UUID id, @PathVariable UUID commentId, @RequestBody CommentParam commentParam) {
+		return postService.updateCommentInPost(id, commentId, commentParam);
+	}
+	
+	@DeleteMapping("/comment/{commentId}")
+	public CommentDto deleteCommentInPost(@PathVariable UUID commentId) {
+		return postService.deleteCommentInPost(commentId);
+	}
+	
 }

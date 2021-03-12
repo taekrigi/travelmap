@@ -6,27 +6,62 @@ import {
   VISITED_COUNTRIES_COUNT_SUCCESS,
   VISITED_COUNTRIES_COUNT_FAIL,
   TRAVEL_MAP_CLEAR,
+  TRAVEL_MAP_DELETE_REQUEST,
+  TRAVEL_MAP_DELETE_SUCCESS,
+  TRAVEL_MAP_DELETE_FAIL,
 } from '../constants/travelMapConstants'
 
-export const travelMapListReducer = (
-  state = { travelMaps: [], counts: [] },
+export const travelMapReducer = (
+  state = { travelMapList: [], countList: [] },
   action
 ) => {
   switch (action.type) {
     case TRAVEL_MAP_LIST_REQUEST:
-      return { ...state, loading: true, travelMaps: [] }
+      return {
+        ...state,
+        loading: true,
+        travelMapList: [],
+        loading: false,
+        error: null,
+      }
     case TRAVEL_MAP_LIST_SUCCESS:
-      return { ...state, loading: false, travelMaps: action.payload.travelMaps }
+      return {
+        ...state,
+        loading: false,
+        travelMapList: action.payload,
+      }
     case TRAVEL_MAP_LIST_FAIL:
-      return { ...state, loading: false, error: action.payload }
+      return {
+        ...state,
+        loading: false,
+        travelMapList: [],
+        error: action.payload,
+      }
     case VISITED_COUNTRIES_COUNT_REQUEST:
-      return { ...state, loading: true, counts: [] }
+      return { ...state, loading: true, countList: [] }
     case VISITED_COUNTRIES_COUNT_SUCCESS:
-      return { ...state, loading: false, counts: action.payload.counts }
+      return { ...state, loading: false, countList: action.payload }
     case VISITED_COUNTRIES_COUNT_FAIL:
-      return { ...state, loading: false, error: action.payload }
+      return { ...state, loading: false, countList: [], error: action.payload }
     case TRAVEL_MAP_CLEAR:
-      return { ...state, travelMaps: [] }
+      return { ...state, travelMapList: [], countList: [] }
+    case TRAVEL_MAP_DELETE_REQUEST:
+      return { ...state, loading: true }
+    case TRAVEL_MAP_DELETE_SUCCESS:
+      return {
+        ...state,
+        travelMapList: [
+          ...state.travelMapList.filter(
+            (travelMap) => travelMap.id !== action.payload
+          ),
+        ],
+      }
+    case TRAVEL_MAP_DELETE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      }
     default:
       return state
   }
