@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +32,7 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER')") 
 	public List<UserDto> getUsers() {
 		return userService.getUsers();
 	}
@@ -48,7 +50,7 @@ public class UserController {
 	}
 	
 	@PutMapping("{username}")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER') and athentication.principal.username == #username")
 	public UserDto updateUser(@PathVariable("username") String username, @Valid @RequestBody UserParam userParam) {
 		return userService.updateUser(username, userParam);
 	}

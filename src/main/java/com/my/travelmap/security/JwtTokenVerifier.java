@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
@@ -26,8 +27,10 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
+@Slf4j
 public class JwtTokenVerifier extends OncePerRequestFilter {
 	
 	private final SecretKey secretKey;
@@ -55,22 +58,32 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
     	   Claims body = claimsJws.getBody();
 
            String username = body.getSubject();
-           
            List<Map<String, String>> authorities = (List<Map<String, String>>) body.get("authorities");
+           UUID uuid = UUID.fromString((String) body.get("uuid"));
            
            Set<SimpleGrantedAuthority> simpleGrantedAuthorities = authorities.stream()
                     .map(m -> new SimpleGrantedAuthority(m.get("authority")))
                     .collect(Collectors.toSet());
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    username,
+                    new ApplicationUserDetails(
+                    		username, 
+                    		"", 
+                    		false, 
+                    		false, 
+                    		false, 
+                    		false, 
+                    		simpleGrantedAuthorities, 
+                    		uuid
+                    ),
                     null,
                     simpleGrantedAuthorities
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (JwtException e) {
-    	   throw new IllegalStateException(String.format("Token %s cannot be trusted", token));
+           log.error("Token {} cannot be trusted", token);
+    	  // throw new IllegalStateException(String.format("Token %s cannot be trusted", token));
         }
        
         filterChain.doFilter(request, response);

@@ -1,3 +1,4 @@
+
 package com.my.travelmap.security;
 
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			throws AuthenticationException {
 		try {
 			UserParam userParam = new ObjectMapper().readValue(req.getInputStream(), UserParam.class);
-
+			
 			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 							userParam.getUsername(), 
 							userParam.getPassword()
@@ -56,12 +57,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		String token = Jwts.builder()
                 .setSubject(authResult.getName())
                 .claim("authorities", authResult.getAuthorities())
+                .claim("uuid", ((ApplicationUserDetails) authResult.getPrincipal()).getUuid())
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(2)))
                 .signWith(secretKey)
                 .compact();
 		
 		PrintWriter out = res.getWriter();
+		
 		res.setCharacterEncoding("UTF-8");
 		res.setContentType("application/json");
 		

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.my.travelmap.dto.CommentDto;
 import com.my.travelmap.dto.PostDto;
-import com.my.travelmap.entity.Comment;
 import com.my.travelmap.param.CommentParam;
 import com.my.travelmap.param.PostParam;
 import com.my.travelmap.service.PostService;
@@ -42,6 +42,7 @@ public class PostController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<PostDto> addPost(@RequestBody PostParam postParam) throws URISyntaxException {
 		PostDto post = postService.addPost(postParam);
 		return ResponseEntity.created(new URI("/post/" + post.getId())).body(post);

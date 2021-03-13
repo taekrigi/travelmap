@@ -35,14 +35,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 		authorities.add(new SimpleGrantedAuthority(user.getRole()));
 		
-		return new User(
+		return new ApplicationUserDetails(
 				user.getUsername(), 
 				user.getEncryptedPassword(), 
 				true, 
 				true, 
 				true, 
 				true, 
-				authorities
+				authorities,
+				user.getId()
 			);
 	}
 
