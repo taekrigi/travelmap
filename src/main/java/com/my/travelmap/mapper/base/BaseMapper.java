@@ -3,9 +3,6 @@ package com.my.travelmap.mapper.base;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
-
 /**
  * Base Mapper interface.
  *

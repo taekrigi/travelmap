@@ -15,7 +15,6 @@ const TravelMapScreen = () => {
 
   const travelMap = useSelector((state) => state.travelMap)
   const user = useSelector((state) => state.user)
-  console.log(user)
   const { loading, error, travelMapList, countList } = travelMap
   const { name } = user
 

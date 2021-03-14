@@ -3,13 +3,12 @@ package com.my.travelmap.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,16 +19,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.ImmutableMap;
 import com.my.travelmap.dto.UserDto;
 import com.my.travelmap.param.UserParam;
 import com.my.travelmap.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("users")
+@RequiredArgsConstructor
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 	
 	@GetMapping
 	@PreAuthorize("hasRole('ROLE_USER')") 
@@ -65,5 +67,16 @@ public class UserController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public UserDto updateUserRole(@PathVariable("role") String role, @PathVariable("username") String username) {
 		return userService.updateUserRole(role, username);
+	}
+	
+	@PostMapping("jwt")
+	@PreAuthorize("isAuthenticated()")
+	public Map<String, Object> validateJwt() {
+		return ImmutableMap.of(
+				"isValidToken", true,
+				"user", SecurityContextHolder.getContext()
+					.getAuthentication()
+					.getPrincipal()
+		);
 	}
 }
