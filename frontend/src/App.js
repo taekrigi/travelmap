@@ -1,5 +1,7 @@
 import './App.css'
+import { useEffect } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import { Container } from 'react-bootstrap'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -11,7 +13,18 @@ import TravelMapChangeScreen from './screens/TravelMapChangeScreen'
 import PostScreen from './screens/PostScreen'
 import PostAddScreen from './screens/PostAddScreen'
 
+import { verifyJwtToken } from './actions/userAction'
+
 const App = () => {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
+
+  useEffect(() => {
+    if (!user.loggedIn) {
+      dispatch(verifyJwtToken())
+    }
+  }, [])
+
   return (
     <Router>
       <main className='py-3'>

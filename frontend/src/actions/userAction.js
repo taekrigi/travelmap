@@ -8,6 +8,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOG_OUT,
+  VERIFY_JWT_TOKEN,
 } from '../constants/userConstants'
 
 import { TRAVEL_MAP_CLEAR } from '../constants/travelMapConstants'
@@ -79,4 +80,20 @@ export const logout = () => async (dispatch) => {
     type: TRAVEL_MAP_CLEAR,
   })
   localStorage.removeItem('USER_INFO')
+}
+
+export const verifyJwtToken = () => async (dispatch) => {
+  const userStringFromStorage = localStorage.getItem('USER_INFO')
+
+  if (!userStringFromStorage || !JSON.parse(userStringFromStorage).token) return
+
+  const { data } = await axios.post('/users/jwt')
+
+  dispatch({
+    type: VERIFY_JWT_TOKEN,
+    payload: {
+      ...data,
+      authorities: data.authorities.map((a) => a.authority),
+    },
+  })
 }

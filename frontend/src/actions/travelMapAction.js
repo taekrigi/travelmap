@@ -17,7 +17,10 @@ export const getTravelMaps = (userId) => async (dispatch) => {
 
     dispatch({
       type: TRAVEL_MAP_LIST_SUCCESS,
-      payload: data.map((travelMap) => ({ ...travelMap, value: 1 })),
+      payload: data.map(({ country, visitedDate }) => ({
+        country,
+        value: visitedDate,
+      })),
     })
   } catch (error) {
     dispatch({

@@ -14,15 +14,15 @@ const TravelMapScreen = () => {
   const dispatch = useDispatch()
 
   const travelMap = useSelector((state) => state.travelMap)
-  const user = useSelector((state) => state.user)
+  const { user } = useSelector((state) => state.user)
   const { loading, error, travelMapList, countList } = travelMap
-  const { name } = user
+  const { username } = user
 
   useEffect(() => {
-    if (!name) return
-    dispatch(getTravelMaps(name))
-    dispatch(getVisitedCountriesCount(name))
-  }, [])
+    if (!username) return
+    dispatch(getTravelMaps(username))
+    dispatch(getVisitedCountriesCount(username))
+  }, [username])
 
   return (
     <>

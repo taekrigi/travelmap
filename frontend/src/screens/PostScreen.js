@@ -7,7 +7,6 @@ import { getPosts } from '../actions/postAction'
 const PostScreen = () => {
   const dispatch = useDispatch()
   const postState = useSelector((state) => state.post)
-  console.log(postState)
 
   const { postList, error } = postState
 

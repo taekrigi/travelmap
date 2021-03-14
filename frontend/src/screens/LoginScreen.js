@@ -10,11 +10,11 @@ const LoginScreen = ({ location, history }) => {
 
   const dispatch = useDispatch()
 
-  const user = useSelector((state) => state.user)
-  const { loading, error, name } = user
+  const { user } = useSelector((state) => state.user)
+  const { loading, error, username: storedUser } = user
 
   useEffect(() => {
-    if (name) {
+    if (storedUser) {
       history.push('/')
     }
   })
