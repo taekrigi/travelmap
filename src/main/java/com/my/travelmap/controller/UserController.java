@@ -3,7 +3,6 @@ package com.my.travelmap.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -19,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.ImmutableMap;
 import com.my.travelmap.dto.UserDto;
 import com.my.travelmap.param.UserParam;
+import com.my.travelmap.security.ApplicationUserDetails;
 import com.my.travelmap.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -71,12 +70,10 @@ public class UserController {
 	
 	@PostMapping("jwt")
 	@PreAuthorize("isAuthenticated()")
-	public Map<String, Object> validateJwt() {
-		return ImmutableMap.of(
-				"isValidToken", true,
-				"user", SecurityContextHolder.getContext()
-					.getAuthentication()
-					.getPrincipal()
-		);
+	public ApplicationUserDetails validateJwt() {
+		return (ApplicationUserDetails) 
+				SecurityContextHolder.getContext()
+				.getAuthentication()
+				.getPrincipal();
 	}
 }

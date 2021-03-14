@@ -1,5 +1,7 @@
 package com.my.travelmap.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -21,10 +23,8 @@ public class TravelMap extends BaseEntity {
 	private String country;
 	
 	private String city;
-	
-	private String latitude;
-	
-	private String longitude;
+
+	private LocalDateTime visitedDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "username", referencedColumnName = "username")
@@ -32,8 +32,6 @@ public class TravelMap extends BaseEntity {
 	
 	public void update(TravelMapParam travelMapParam) {
 		this.country = travelMapParam.getCountry();
-		this.city = travelMapParam.getCity();
-		this.latitude = travelMapParam.getLatitude();
-		this.longitude = travelMapParam.getLongitude();
+		this.visitedDate = travelMapParam.getVisitedDate();
 	}
 }

@@ -69,7 +69,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		res.setContentType("application/json");
 		
 		Map<String, Object> userInfo = ImmutableMap.of(
-				"name", authResult.getName(),
+				"username", authResult.getName(),
 				"authorities", authResult.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList()),
 				"token", jwtProperties.getPrefix() + " " + token,

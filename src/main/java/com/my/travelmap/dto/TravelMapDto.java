@@ -1,5 +1,6 @@
 package com.my.travelmap.dto;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -15,9 +16,5 @@ public class TravelMapDto {
 
 	private String country;
 	
-	private String city;
-	
-	private String latitude;
-	
-	private String longitude;
+	private LocalDateTime visitedDate;
 }

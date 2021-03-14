@@ -1,11 +1,12 @@
 package com.my.travelmap.repository.travelmap;
 
+import static com.my.travelmap.entity.QTravelMap.travelMap;
+
 import java.util.List;
 
 import com.my.travelmap.dto.VisitedCountryCountDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import static com.my.travelmap.entity.QTravelMap.travelMap;
 
 import lombok.RequiredArgsConstructor;
 
