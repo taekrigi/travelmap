@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,11 +50,14 @@ public class PostController {
 	}
 	
 	@PutMapping("{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER') and authentication.principal.username == #postParam.writer")
 	public PostDto updatePost(@PathVariable UUID id, @RequestBody PostParam postParam) {
 		return postService.updatePost(id, postParam);
 	}
 	
 	@DeleteMapping("{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PostAuthorize("authentication.principal.username == returnObject.writer")
 	public PostDto deletePost(@PathVariable UUID id) {
 		return postService.deletePost(id);
 	}
@@ -69,17 +73,22 @@ public class PostController {
 	}
 	
 	@PostMapping("{id}/comment")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<CommentDto> addCommentInPost(@PathVariable UUID id, @RequestBody CommentParam commentParam) throws URISyntaxException {
 		CommentDto comment = postService.addCommentInPost(id, commentParam);
 		return ResponseEntity.created(new URI("/comment/" + comment.getId())).body(comment);
 	}
 	
 	@PutMapping("{id}/comment/{commentId}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PostAuthorize("authentication.principal.username = returnObject.writer")
 	public CommentDto updateCommentInPost(@PathVariable UUID id, @PathVariable UUID commentId, @RequestBody CommentParam commentParam) {
 		return postService.updateCommentInPost(id, commentId, commentParam);
 	}
 	
 	@DeleteMapping("/comment/{commentId}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PostAuthorize("authentication.principal.username = returnObject.writer")
 	public CommentDto deleteCommentInPost(@PathVariable UUID commentId) {
 		return postService.deleteCommentInPost(commentId);
 	}

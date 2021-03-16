@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,19 +34,19 @@ public class TravelMapController {
 	private final TravelMapService travelMapService;
 	
 	@GetMapping("/user/{username}")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER') and authentiation.principal.username = #username")
 	public List<TravelMapDto> getTravelMapsByUsername(@PathVariable("username") String username) {
 		return travelMapService.getTravelMapsByUsername(username);
 	}
 	
 	@GetMapping("{id}")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER') and authentication.principal.uuid = #id")
 	public TravelMapDto getTravelMapById(@PathVariable("id") UUID id) {
 		return travelMapService.getTravelMapById(id);
 	}
 	
 	@PostMapping("/user/{username}")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER') and authentication.principal.username = #username")
 	public ResponseEntity<TravelMapDto> addTravelMapByUser(
 			@PathVariable("username") String username, 
 			@Valid @RequestBody TravelMapParam travelMapParam
@@ -61,13 +62,13 @@ public class TravelMapController {
 	}
 	
 	@DeleteMapping("{id}")
-	@PreAuthorize("hasRole('ROLE_USER')")
-	public TravelMapDto deleteTravelMapById(UUID id) {
+	@PreAuthorize("hasRole('ROLE_USER') and authentication.principal.uuid = #id")
+	public TravelMapDto deleteTravelMapById(@PathVariable("id") UUID id) {
 		return travelMapService.deleteTravelMapById(id);
 	}
 	
 	@GetMapping("/count/countries/{username}")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER') and authentication.principal.username = #username")
 	public List<VisitedCountryCountDto> getVisitedCountriesCountByUser(@PathVariable("username") String username) {
 		return travelMapService.getVisitedCountriesCountByUser(username);
 	}

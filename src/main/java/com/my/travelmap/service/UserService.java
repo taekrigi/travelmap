@@ -1,17 +1,22 @@
 package com.my.travelmap.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.ImmutableMap;
 import com.my.travelmap.dto.UserDto;
 import com.my.travelmap.entity.User;
 import com.my.travelmap.error.UserAlreadyExistsException;
 import com.my.travelmap.mapper.UserMapper;
 import com.my.travelmap.param.UserParam;
 import com.my.travelmap.repository.user.UserRepository;
+import com.my.travelmap.security.ApplicationUserDetails;
 import com.my.travelmap.security.UserRole;
 import com.my.travelmap.util.CommonUtilService;
 
@@ -62,5 +67,17 @@ public class UserService {
 	
 	public User findUserByUsername(String username) {
 		return CommonUtilService.throwIfNotExist(userRepository.findByUsername(username), username);
+	}
+	
+	public Map<String, Object> validateJwt() {
+		ApplicationUserDetails userDetails = (ApplicationUserDetails) SecurityContextHolder.getContext()
+				.getAuthentication()
+				.getPrincipal();
+		return ImmutableMap.of(
+			"username", userDetails.getUsername(),
+			"authorities", userDetails.getAuthorities().stream()
+				.map(e -> e.getAuthority())
+				.collect(Collectors.toSet())
+		);
 	}
 }

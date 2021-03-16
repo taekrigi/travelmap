@@ -5,6 +5,8 @@ import static com.my.travelmap.entity.QTravelMap.travelMap;
 import java.util.List;
 
 import com.my.travelmap.dto.VisitedCountryCountDto;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -26,6 +28,7 @@ public class TravelMapRepositoryImpl implements TravelMapRepositoryCustom {
 						travelMap.country, 
 						travelMap.country.count())
 				)
+				.orderBy(new OrderSpecifier<>(Order.DESC, travelMap.country.count()))
 				.fetch();
 	}
 	

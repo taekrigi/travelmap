@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.my.travelmap.dto.TravelMapDto;
@@ -44,6 +45,9 @@ public class TravelMapService {
 	@Transactional
 	public TravelMapDto updateTravelMapById(UUID id, TravelMapParam travelMapParam) {
 		TravelMap travelMap = findTravelMapById(id);
+		if (!SecurityContextHolder.getContext().getAuthentication().getName().equals(travelMap.getUser().getUsername())) {
+			throw new IllegalArgumentException("사용자가 일치하지 않습니다.");
+		}
 		travelMap.update(travelMapParam);
 		return travelMapMapper.toDto(travelMap);
 	}
