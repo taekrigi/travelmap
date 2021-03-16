@@ -1,7 +1,7 @@
 import React from 'react'
 import Menu from './Menu'
 
-const Header = () => {
+const Header = ({ user }) => {
   return (
     <nav className='navbar navbar-expand-md navbar-dark bg-dark mb-4'>
       <a className='navbar-brand' href='#'>
@@ -19,7 +19,7 @@ const Header = () => {
         <span className='navbar-toggler-icon'></span>
       </button>
       <div className='collapse navbar-collapse' id='navbarCollapse'>
-        <Menu />
+        <Menu user={user} />
       </div>
     </nav>
   )

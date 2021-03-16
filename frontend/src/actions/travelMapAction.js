@@ -7,6 +7,9 @@ import {
   VISITED_COUNTRIES_COUNT_REQUEST,
   VISITED_COUNTRIES_COUNT_SUCCESS,
   VISITED_COUNTRIES_COUNT_FAIL,
+  DELETE_TRAVEL_MAP_REQUEST,
+  DELETE_TRAVEL_MAP_SUCCESS,
+  DELETE_TRAVEL_MAP_FAIL,
 } from '../constants/travelMapConstants'
 
 export const getTravelMaps = (userId) => async (dispatch) => {
@@ -17,9 +20,10 @@ export const getTravelMaps = (userId) => async (dispatch) => {
 
     dispatch({
       type: TRAVEL_MAP_LIST_SUCCESS,
-      payload: data.map(({ country, visitedDate }) => ({
+      payload: data.map(({ id, country, visitedDate }) => ({
+        id,
         country,
-        value: visitedDate,
+        visitedDate,
       })),
     })
   } catch (error) {
@@ -56,4 +60,23 @@ export const getVisitedCountriesCount = () => async (dispatch) => {
   }
 }
 
-const removeTravelMap = (id) => {}
+export const deleteTravelMap = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: TRAVEL_MAP_LIST_REQUEST })
+
+    await axios.delete(`/travelmap/${id}`)
+
+    dispatch({
+      type: TRAVEL_MAP_LIST_SUCCESS,
+      payload: id,
+    })
+  } catch (error) {
+    dispatch({
+      type: TRAVEL_MAP_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}

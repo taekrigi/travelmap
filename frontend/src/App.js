@@ -1,17 +1,11 @@
 import './App.css'
 import { useEffect } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Container } from 'react-bootstrap'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import TravelMapScreen from './screens/TravelMapScreen'
-import LoginScreen from './screens/LoginScreen'
-import RegisterScreen from './screens/RegisterScreen'
-import LogoutScreen from './screens/LogoutScreen'
-import TravelMapChangeScreen from './screens/TravelMapChangeScreen'
-import PostScreen from './screens/PostScreen'
-import PostAddScreen from './screens/PostAddScreen'
+import AppRoute from './components/AppRoute'
 
 import { verifyJwtToken } from './actions/userAction'
 
@@ -28,19 +22,9 @@ const App = () => {
   return (
     <Router>
       <main className='py-3'>
-        <Header />
+        <Header user={user} />
         <Container>
-          <Route path='/' component={TravelMapScreen} exact />
-          <Route path='/login' component={LoginScreen} exact />
-          <Route path='/register' component={RegisterScreen} exact />
-          <Route path='/logout' component={LogoutScreen} exact />
-          <Route
-            path='/travelmap/change'
-            component={TravelMapChangeScreen}
-            exact
-          />
-          <Route path='/post' component={PostScreen} exact />
-          <Route path='/post/add' component={PostAddScreen} exact />
+          <AppRoute user={user} />
         </Container>
         <Footer />
       </main>

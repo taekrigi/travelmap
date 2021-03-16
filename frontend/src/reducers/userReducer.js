@@ -7,6 +7,7 @@ import {
   REGISTER_FAIL,
   LOG_OUT,
   VERIFY_JWT_TOKEN,
+  CLEAR_LOGIN,
 } from '../constants/userConstants'
 
 export const userReducer = (
@@ -33,6 +34,8 @@ export const userReducer = (
       return { ...state, user: action.payload, loggedIn: true }
     case LOG_OUT:
       return { ...state, user: {}, loggedIn: false }
+    case CLEAR_LOGIN:
+      return { ...state, error: null }
     default:
       return state
   }

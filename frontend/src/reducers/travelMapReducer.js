@@ -6,9 +6,9 @@ import {
   VISITED_COUNTRIES_COUNT_SUCCESS,
   VISITED_COUNTRIES_COUNT_FAIL,
   TRAVEL_MAP_CLEAR,
-  TRAVEL_MAP_DELETE_REQUEST,
-  TRAVEL_MAP_DELETE_SUCCESS,
-  TRAVEL_MAP_DELETE_FAIL,
+  DELETE_TRAVEL_MAP_REQUEST,
+  DELETE_TRAVEL_MAP_SUCCESS,
+  DELETE_TRAVEL_MAP_FAIL,
 } from '../constants/travelMapConstants'
 
 export const travelMapReducer = (
@@ -45,18 +45,17 @@ export const travelMapReducer = (
       return { ...state, loading: false, countList: [], error: action.payload }
     case TRAVEL_MAP_CLEAR:
       return { ...state, travelMapList: [], countList: [] }
-    case TRAVEL_MAP_DELETE_REQUEST:
+    case DELETE_TRAVEL_MAP_REQUEST:
       return { ...state, loading: true }
-    case TRAVEL_MAP_DELETE_SUCCESS:
+    case DELETE_TRAVEL_MAP_SUCCESS:
       return {
         ...state,
         travelMapList: [
-          ...state.travelMapList.filter(
-            (travelMap) => travelMap.id !== action.payload
-          ),
+          ...state.travelMapList.filter((t) => t.id !== action.payload),
         ],
+        countList: state.countList - 1,
       }
-    case TRAVEL_MAP_DELETE_FAIL:
+    case DELETE_TRAVEL_MAP_FAIL:
       return {
         ...state,
         loading: false,

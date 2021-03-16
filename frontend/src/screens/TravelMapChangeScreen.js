@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import TravelMapList from '../components/TravelMapList'
+import TravelMapList from '../components/travelMap/TravelMapList'
 import countryList from 'country-list'
 import { Button, Modal, Form } from 'react-bootstrap'
 import { getTravelMaps } from '../actions/travelMapAction'
@@ -8,8 +8,9 @@ import axios from 'axios'
 
 const TravelMapChangeScreen = () => {
   const dispatch = useDispatch()
-  const { name } = useSelector((state) => state.user)
+  const { user } = useSelector((state) => state.user)
   const { travelMapList } = useSelector((state) => state.travelMap)
+  const { username } = user
 
   const [showModal, setShowModal] = useState(false)
   const [country, setCountry] = useState(null)
@@ -24,7 +25,7 @@ const TravelMapChangeScreen = () => {
 
   const addTravelMap = async () => {
     try {
-      const { data } = await axios.post(`/travelmap/user/${name}`, {
+      const { data } = await axios.post(`/travelmap/user/${username}`, {
         country: country.toLowerCase(),
         city: '',
         latitude: 0,
@@ -45,7 +46,7 @@ const TravelMapChangeScreen = () => {
   }
 
   useEffect(() => {
-    dispatch(getTravelMaps(name))
+    dispatch(getTravelMaps(username))
   }, [travelMapAdded])
 
   return (
@@ -57,7 +58,7 @@ const TravelMapChangeScreen = () => {
       >
         추가
       </Button>
-      <TravelMapList c={travelMapList} />
+      <TravelMapList travelMapList={travelMapList} />
       <Modal
         show={showModal}
         onHide={hideModal}

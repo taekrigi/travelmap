@@ -9,6 +9,7 @@ import {
   REGISTER_FAIL,
   LOG_OUT,
   VERIFY_JWT_TOKEN,
+  CLEAR_LOGIN,
 } from '../constants/userConstants'
 
 import { TRAVEL_MAP_CLEAR } from '../constants/travelMapConstants'
@@ -28,6 +29,7 @@ export const login = ({ username, password }) => async (dispatch) => {
     })
 
     localStorage.setItem('USER_INFO', JSON.stringify(data))
+    window.location.href = '/'
   } catch (error) {
     dispatch({
       type: LOGIN_FAIL,
@@ -91,9 +93,12 @@ export const verifyJwtToken = () => async (dispatch) => {
 
   dispatch({
     type: VERIFY_JWT_TOKEN,
-    payload: {
-      ...data,
-      authorities: data.authorities.map((a) => a.authority),
-    },
+    payload: data,
+  })
+}
+
+export const clearLogin = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_LOGIN,
   })
 }

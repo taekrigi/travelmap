@@ -8,3 +8,4 @@ export const REGISTER_FAIL = 'REGISTER_FAIL'
 
 export const VERIFY_JWT_TOKEN = 'VERIFY_JWT_TOKEN'
 export const LOG_OUT = 'LOG_OUT'
+export const CLEAR_LOGIN = 'CLEAR_LOGIN'
